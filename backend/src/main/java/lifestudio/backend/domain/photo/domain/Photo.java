@@ -3,12 +3,13 @@ package lifestudio.backend.domain.photo.domain;
 
 import lifestudio.backend.domain.studio.domain.Studio;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @Setter
 public class Photo {
 
     @Id

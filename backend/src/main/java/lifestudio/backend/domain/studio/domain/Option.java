@@ -2,20 +2,21 @@ package lifestudio.backend.domain.studio.domain;
 
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter
+@Getter @Setter
 public class Option {
 
-    private int shootingTime;
+    private Integer shootingTime;
 
-    private int retouchingtime;
+    private Integer retouchingtime;
 
-    private boolean originalProvide;
+    private Boolean originalProvide;
 
-    private int printPhoto;
+    private Integer printPhoto;
 
     private String item;
 

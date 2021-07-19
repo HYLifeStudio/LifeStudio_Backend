@@ -1,11 +1,12 @@
 package lifestudio.backend.domain.studio.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter
+@Getter @Setter
 public class Address {
 
     private String cityDistrict;

@@ -4,7 +4,11 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Embeddable
+@Getter @Setter
 public class Tag {
 
     @Enumerated(EnumType.STRING)
@@ -13,5 +17,5 @@ public class Tag {
     @Enumerated(EnumType.STRING)
     private Background background;
 
-    private boolean itemExist;
+    private Boolean itemExist;
 }

@@ -4,12 +4,13 @@ import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.user.domain.User;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
+@Getter @Setter
 public class Review {
 
     @Id

@@ -1,13 +1,15 @@
-package lifestudio.backend.domain.user.domain;
+package lifestudio.backend.domain.photo.domain;
 
 import lifestudio.backend.domain.photo.domain.Photo;
+import lifestudio.backend.domain.user.domain.User;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-public class Like {
+@Getter @Setter
+public class Likes {
 
     @Id
     @GeneratedValue
@@ -21,5 +23,7 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "photo_id")
     private Photo photo;
+
+    private Boolean isLiked;
 
 }
