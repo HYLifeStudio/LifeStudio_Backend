@@ -35,17 +35,14 @@ class ReviewRepositoryTest {
 		Studio studio2 = new Studio();
 		studioRepository.save(studio2);
 
-		Review review1 = new Review();
-		review1.setStudio(studio1);
-		reviewRepository.save(review1);
+		Review studio1Review1 = ReviewWithStudio(studio1);
+		reviewRepository.save(studio1Review1);
 
-		Review review2 = new Review();
-		review2.setStudio(studio1);
-		reviewRepository.save(review2);
+		Review studio1Review2 = ReviewWithStudio(studio1);
+		reviewRepository.save(studio1Review2);
 
-		Review review3 = new Review();
-		review3.setStudio(studio2);
-		reviewRepository.save(review3);
+		Review studio2Review1 = ReviewWithStudio(studio2);
+		reviewRepository.save(studio2Review1);
 
 		//when
 		List<Review> studio1Reviews = reviewRepository.findByStudioId(studio1.getId());
@@ -56,5 +53,10 @@ class ReviewRepositoryTest {
 		assertEquals(1, studio2Reviews.size());
 	}
 
+	private Review ReviewWithStudio(Studio studio) {
+		Review review = new Review();
+		review.setStudio(studio);
+		return review;
+	}
 
 }

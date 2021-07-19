@@ -33,8 +33,9 @@ class LikesRepositoryTest {
 
 		//given
 		Likes like1 = new Likes();
-		Likes like2 = new Likes();
 		likeRepository.save(like1);
+
+		Likes like2 = new Likes();
 		likeRepository.save(like2);
 
 		//when
@@ -53,40 +54,42 @@ class LikesRepositoryTest {
 	public void 로그인한유저가누른사진좋아요찾기() {
 		//given
 		User user1 = new User();
-		User user2 = new User();
 		userRepository.save(user1);
+
+		User user2 = new User();
 		userRepository.save(user2);
 
 		Photo photo1 = new Photo();
-		Photo photo2 = new Photo();
 		photoRepository.save(photo1);
+
+		Photo photo2 = new Photo();
 		photoRepository.save(photo2);
 
-		Likes like1 = new Likes();
-		Likes like2 = new Likes();
-		Likes like3 = new Likes();
-		likeRepository.save(like1);
-		likeRepository.save(like2);
-		likeRepository.save(like3);
+		Likes likeWithUser1AndPhoto1 = LikesWithUserAndPhoto(user1, photo1);
+		likeRepository.save(likeWithUser1AndPhoto1);
 
-		like1.setUser(user1);
-		like1.setPhoto(photo1);
+		Likes likeWithUser2AndPhoto1 = LikesWithUserAndPhoto(user2, photo1);
+		likeRepository.save(likeWithUser2AndPhoto1);
 
-		like2.setUser(user2);
-		like2.setPhoto(photo1);
-
-		like3.setUser(user2);
-		like3.setPhoto(photo2);
+		Likes likeWithUser2AndPhoto2 = LikesWithUserAndPhoto(user2, photo2);
+		likeRepository.save(likeWithUser2AndPhoto2);
 
 		//when
-		Likes User1Photo1 = likeRepository.findByPhotoIdAndUserId(user1.getId(),photo1.getId()).get();
-		Likes User2Photo1 = likeRepository.findByPhotoIdAndUserId(user2.getId(),photo1.getId()).get();
-		Likes User2Photo2 = likeRepository.findByPhotoIdAndUserId(user2.getId(), photo2.getId()).get();
+		Likes findLikeWithUser1Photo1 = likeRepository.findByPhotoIdAndUserId(user1.getId(),photo1.getId()).get();
+		Likes findLikeWithUser2Photo1 = likeRepository.findByPhotoIdAndUserId(user2.getId(),photo1.getId()).get();
+		Likes findLikeWithUser2Photo2 = likeRepository.findByPhotoIdAndUserId(user2.getId(), photo2.getId()).get();
 
 		//then
-		assertEquals(like1,User1Photo1);
-		assertEquals(like2, User2Photo1);
-		assertEquals(like3, User2Photo2);
+		assertEquals(likeWithUser1AndPhoto1, findLikeWithUser1Photo1);
+		assertEquals(likeWithUser2AndPhoto1, findLikeWithUser2Photo1);
+		assertEquals(likeWithUser2AndPhoto2, findLikeWithUser2Photo2);
+	}
+
+	private Likes LikesWithUserAndPhoto(User user, Photo photo) {
+		Likes like = new Likes();
+		like.setUser(user);
+		like.setPhoto(photo);
+		return like;
 	}
 
 }

@@ -19,7 +19,7 @@ public class Studio {
     @Column(name = "studio_id")
     private Long id;
 
-    private String studioname;
+    private String studioName;
 
     @Enumerated(EnumType.STRING)
     private StudioType studioType;

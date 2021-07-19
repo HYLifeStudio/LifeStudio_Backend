@@ -27,8 +27,9 @@ class UserRepositoryTest {
 
 		//given
 		User user1 = new User();
-		User user2 = new User();
 		userRepository.save(user1);
+
+		User user2 = new User();
 		userRepository.save(user2);
 
 		//when
@@ -62,16 +63,13 @@ class UserRepositoryTest {
 	public void 이메일로조회하기() {
 
 		//given
-		User user1 = new User();
-		user1.setEmail("zxcvb5434@likelion.org");
+		User user1 = UserWithEmail("zxcvb5434@likelion.org");
 		userRepository.save(user1);
 
-		User user2 = new User();
-		user2.setEmail("zxcvb5434@likelion.org");
+		User user2 = UserWithEmail("zxcvb5434@likelion.org");
 		userRepository.save(user2);
 
-		User user3 = new User();
-		user3.setEmail("zxcvb5435@likelion.org");
+		User user3 = UserWithEmail("zxcvb5435@likelion.org");
 		userRepository.save(user3);
 
 		//when
@@ -79,6 +77,12 @@ class UserRepositoryTest {
 
 		//then
 		assertEquals(2, findEmailUsers.size());
+	}
+
+	private User UserWithEmail(String email) {
+		User user = new User();
+		user.setEmail(email);
+		return user;
 	}
 
 }

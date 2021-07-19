@@ -31,25 +31,23 @@ class PhotoRepositoryTest {
 	StudioRepository studioRepository;
 
 	@Test
-	public void 스튜디오아이디로사진찾기() {
+	public void 스튜디오에속한사진들찾기() {
 
 		//given
 		Studio studio1 = new Studio();
-		Studio studio2 = new Studio();
 		studioRepository.save(studio1);
+
+		Studio studio2 = new Studio();
 		studioRepository.save(studio2);
 
-		Photo photo1 = new Photo();
-		photo1.setStudio(studio1);
-		photoRepository.save(photo1);
+		Photo studio1Photo1 = PhotoWithStudio(studio1);
+		photoRepository.save(studio1Photo1);
 
-		Photo photo2 = new Photo();
-		photo2.setStudio(studio1);
-		photoRepository.save(photo2);
+		Photo studio1Photo2 = PhotoWithStudio(studio1);
+		photoRepository.save(studio1Photo2);
 
-		Photo photo3 = new Photo();
-		photo3.setStudio(studio2);
-		photoRepository.save(photo3);
+		Photo studio2Photo1 = PhotoWithStudio(studio2);
+		photoRepository.save(studio2Photo1);
 
 		//when
 		List<Photo> studio1Photos = photoRepository.findByStudioId(studio1.getId());
@@ -58,40 +56,32 @@ class PhotoRepositoryTest {
 		assertEquals(2,studio1Photos.size());
 	}
 
+	private Photo PhotoWithStudio(Studio studio) {
+		Photo photo = new Photo();
+		photo.setStudio(studio);
+		return photo;
+	}
+
 	@Test
 	public void 스튜디오유형과태그로사진들찾기() {
 		//given
-		Tag tag1 = new Tag();
-		tag1.setColor(COLOR);
-		tag1.setBackground(PATTERN);
-		tag1.setItemExist(true);
+		Tag tag1 = new Tag(COLOR,PATTERN,true);
+		Tag tag2 = new Tag(BLACKANDWHITE,PATTERN,true);
 
-		Tag tag2 = new Tag();
-		tag2.setColor(BLACKANDWHITE);
-		tag2.setBackground(PATTERN);
-		tag2.setItemExist(true);
+		Studio selfStudioWithTag1 = StudiowithTagAndStudioType(tag1, SELF);
+		studioRepository.save(selfStudioWithTag1);
 
-		Studio studio1 = new Studio();
-		studio1.setStudioType(SELF);
-		studio1.setTag(tag1);
-		studioRepository.save(studio1);
+		Studio selfStudioWithTag2 = StudiowithTagAndStudioType(tag2, SELF);
+		studioRepository.save(selfStudioWithTag2);
 
-		Studio studio2 = new Studio();
-		studio2.setStudioType(SELF);
-		studio2.setTag(tag2);
-		studioRepository.save(studio2);
+		Photo photo1InSelfStudioWithTag1 = PhotoWithStudio(selfStudioWithTag1);
+		photoRepository.save(photo1InSelfStudioWithTag1);
 
-		Photo photo1 = new Photo();
-		photo1.setStudio(studio1);
-		photoRepository.save(photo1);
+		Photo photo2InSelfStudioWithTag1 = PhotoWithStudio(selfStudioWithTag1);
+		photoRepository.save(photo2InSelfStudioWithTag1);
 
-		Photo photo2 = new Photo();
-		photo2.setStudio(studio1);
-		photoRepository.save(photo2);
-
-		Photo photo3 = new Photo();
-		photo3.setStudio(studio2);
-		photoRepository.save(photo3);
+		Photo photoInSelfStudioWithTag2 = PhotoWithStudio(selfStudioWithTag2);
+		photoRepository.save(photoInSelfStudioWithTag2);
 
 		//when
 		List<Photo> tag1SelfPhotos = photoRepository
@@ -102,5 +92,12 @@ class PhotoRepositoryTest {
 		//then
 		assertEquals(2,tag1SelfPhotos.size());
 		assertEquals(1,tag2SelfPhotos.size());
+	}
+
+	private Studio StudiowithTagAndStudioType(Tag tag, StudioType studioType) {
+		Studio studio = new Studio();
+		studio.setStudioType(studioType);
+		studio.setTag(tag);
+		return studio;
 	}
 }

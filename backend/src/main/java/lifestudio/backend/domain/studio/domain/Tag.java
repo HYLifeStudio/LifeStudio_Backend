@@ -18,4 +18,12 @@ public class Tag {
     private Background background;
 
     private Boolean itemExist;
+
+    public Tag(){}
+
+    public Tag(Color color, Background background, Boolean itemExist) {
+        this.color = color;
+        this.background = background;
+        this.itemExist = itemExist;
+    }
 }

@@ -11,7 +11,7 @@ public class Address {
 
     private String cityDistrict;
     private String streetAddress;
-    private String zipcode;
-    private String nearby;
+    private String zipCode;
+    private String nearBy;
 
 }

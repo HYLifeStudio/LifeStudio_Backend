@@ -22,7 +22,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
-    private String username;
+    private String userName;
 
     @Enumerated(EnumType.STRING)
     private Sex sex;
@@ -31,7 +31,7 @@ public class User {
 
     private String email;
 
-    private String nickname;
+    private String nickName;
 
     private String phone;
 

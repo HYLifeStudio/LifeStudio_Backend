@@ -12,7 +12,7 @@ public class Option {
 
     private Integer shootingTime;
 
-    private Integer retouchingtime;
+    private Integer retouchingTime;
 
     private Boolean originalProvide;
 
