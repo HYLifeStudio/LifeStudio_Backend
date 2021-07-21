@@ -35,10 +35,4 @@ public class Studio {
     @Embedded
     private Tag tag;
 
-    @OneToMany(mappedBy = "studio")
-    private List<Photo> photos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "studio")
-    private List<Review> reviews = new ArrayList<>();
-
 }

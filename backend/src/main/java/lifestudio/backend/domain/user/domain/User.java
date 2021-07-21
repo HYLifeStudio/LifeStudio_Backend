@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     private String email;
 
@@ -36,8 +36,5 @@ public class User {
     private String phone;
 
     private String password;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Likes> likes = new ArrayList<>();
 
 }
