@@ -46,12 +46,13 @@ public class ReviewApiController {
 		Studio studio = studioService.findById(dto.getStudioId());
 		User user = userService.findById(dto.getStudioId());
 
-		Review review = new Review();
-		review.setStudio(studio);
-		review.setUser(user);
-		review.setContent(dto.getContent());
-		review.setRating(dto.getRating());
-		review.setCreatedAt(LocalDateTime.now());
+		Review review = Review.builder()
+			.studio(studio)
+			.user(user)
+			.content(dto.getContent())
+			.rating(dto.getRating())
+			.createdAt(LocalDateTime.now())
+			.build();
 
 		Long id = reviewService.createReview(review);
 		return new ReviewDto.Res(reviewService.findById(id));

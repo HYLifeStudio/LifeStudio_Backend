@@ -38,10 +38,11 @@ public class LikesApiController {
 		Photo photo = photoService.findById(dto.getPhotoId());
 		User user = userService.findById(dto.getPhotoId());
 
-		Likes like = new Likes();
-		like.setUser(user);
-		like.setPhoto(photo);
-		like.setIsLiked(dto.getIsLiked());
+		Likes like = Likes.builder()
+			.user(user)
+			.photo(photo)
+			.isLiked(dto.getIsLiked())
+			.build();
 
 		Long id = likesService.createLikes(like);
 		return new LikesDto.Res(likesService.findById(id));

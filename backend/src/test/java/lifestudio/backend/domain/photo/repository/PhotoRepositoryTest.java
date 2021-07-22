@@ -34,10 +34,12 @@ class PhotoRepositoryTest {
 	public void 스튜디오에속한사진들찾기() {
 
 		//given
-		Studio studio1 = new Studio();
+		Studio studio1 = Studio.builder()
+			.build();
 		studioRepository.save(studio1);
 
-		Studio studio2 = new Studio();
+		Studio studio2 = Studio.builder()
+			.build();
 		studioRepository.save(studio2);
 
 		Photo studio1Photo1 = PhotoWithStudio(studio1);
@@ -57,8 +59,9 @@ class PhotoRepositoryTest {
 	}
 
 	private Photo PhotoWithStudio(Studio studio) {
-		Photo photo = new Photo();
-		photo.setStudio(studio);
+		Photo photo = Photo.builder()
+			.studio(studio)
+			.build();
 		return photo;
 	}
 
@@ -95,9 +98,10 @@ class PhotoRepositoryTest {
 	}
 
 	private Studio StudiowithTagAndStudioType(Tag tag, StudioType studioType) {
-		Studio studio = new Studio();
-		studio.setStudioType(studioType);
-		studio.setTag(tag);
+		Studio studio = Studio.builder()
+			.studioType(studioType)
+			.tag(tag)
+			.build();
 		return studio;
 	}
 }

@@ -4,11 +4,18 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Embeddable
 @Getter @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Tag {
 
     @Enumerated(EnumType.STRING)
@@ -19,11 +26,4 @@ public class Tag {
 
     private Boolean itemExist;
 
-    public Tag(){}
-
-    public Tag(Color color, Background background, Boolean itemExist) {
-        this.color = color;
-        this.background = background;
-        this.itemExist = itemExist;
-    }
 }

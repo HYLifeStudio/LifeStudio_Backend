@@ -32,10 +32,10 @@ class LikesRepositoryTest {
 	public void 기본CRUD() {
 
 		//given
-		Likes like1 = new Likes();
+		Likes like1 = Likes.builder().build();
 		likeRepository.save(like1);
 
-		Likes like2 = new Likes();
+		Likes like2 = Likes.builder().build();
 		likeRepository.save(like2);
 
 		//when
@@ -53,16 +53,16 @@ class LikesRepositoryTest {
 	@Test
 	public void 로그인한유저가누른사진좋아요찾기() {
 		//given
-		User user1 = new User();
+		User user1 = User.builder().build();
 		userRepository.save(user1);
 
-		User user2 = new User();
+		User user2 = User.builder().build();
 		userRepository.save(user2);
 
-		Photo photo1 = new Photo();
+		Photo photo1 = Photo.builder().build();
 		photoRepository.save(photo1);
 
-		Photo photo2 = new Photo();
+		Photo photo2 = Photo.builder().build();
 		photoRepository.save(photo2);
 
 		Likes likeWithUser1AndPhoto1 = LikesWithUserAndPhoto(user1, photo1);
@@ -86,9 +86,10 @@ class LikesRepositoryTest {
 	}
 
 	private Likes LikesWithUserAndPhoto(User user, Photo photo) {
-		Likes like = new Likes();
-		like.setUser(user);
-		like.setPhoto(photo);
+		Likes like = Likes.builder()
+			.user(user)
+			.photo(photo)
+			.build();
 		return like;
 	}
 

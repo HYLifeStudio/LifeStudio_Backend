@@ -35,12 +35,13 @@ public class PhotoApiController {
 
 		Studio studio = studioService.findById(dto.getStudioId());
 
-		Photo photo = new Photo();
-		photo.setStudio(studio);
-		photo.setTitle(dto.getTitle());
-		photo.setUrl(dto.getUrl());
-		photo.setThumbnailUrl(dto.getThumbnailUrl());
-		photo.setCreatedAt(LocalDateTime.now());
+		Photo photo = Photo.builder()
+			.studio(studio)
+			.thumbnailUrl(dto.getTitle())
+			.url(dto.getUrl())
+			.thumbnailUrl(dto.getThumbnailUrl())
+			.createdAt(LocalDateTime.now())
+			.build();
 
 		Long id = photoService.createPhoto(photo);
 		return new PhotoDto.Res(photoService.findById(id));

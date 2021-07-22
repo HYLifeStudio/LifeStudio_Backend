@@ -26,10 +26,10 @@ class UserRepositoryTest {
 		// 생성 및 조회 검증
 
 		//given
-		User user1 = new User();
+		User user1 = User.builder().build();
 		userRepository.save(user1);
 
-		User user2 = new User();
+		User user2 = User.builder().build();
 		userRepository.save(user2);
 
 		//when
@@ -80,8 +80,9 @@ class UserRepositoryTest {
 	}
 
 	private User UserWithEmail(String email) {
-		User user = new User();
-		user.setEmail(email);
+		User user = User.builder()
+			.email(email)
+			.build();
 		return user;
 	}
 

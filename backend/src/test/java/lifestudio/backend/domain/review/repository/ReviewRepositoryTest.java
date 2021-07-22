@@ -29,10 +29,10 @@ class ReviewRepositoryTest {
 	public void 스튜디오에속한리뷰들찾기(){
 
 		//given
-		Studio studio1 = new Studio();
+		Studio studio1 = Studio.builder().build();
 		studioRepository.save(studio1);
 
-		Studio studio2 = new Studio();
+		Studio studio2 = Studio.builder().build();
 		studioRepository.save(studio2);
 
 		Review studio1Review1 = ReviewWithStudio(studio1);
@@ -54,8 +54,9 @@ class ReviewRepositoryTest {
 	}
 
 	private Review ReviewWithStudio(Studio studio) {
-		Review review = new Review();
-		review.setStudio(studio);
+		Review review = Review.builder()
+			.studio(studio)
+			.build();
 		return review;
 	}
 

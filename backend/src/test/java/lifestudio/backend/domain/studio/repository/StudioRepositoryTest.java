@@ -54,15 +54,17 @@ class StudioRepositoryTest {
 	}
 
 	private Address AddressWithCityDistrict(String cityDistrict) {
-		Address address = new Address();
-		address.setCityDistrict(cityDistrict);
+		Address address = Address.builder()
+			.cityDistrict(cityDistrict)
+			.build();
 		return address;
 	}
 
 	private Studio StudioWithAddressAndStudioType(Address address, StudioType studioType) {
-		Studio studio = new Studio();
-		studio.setStudioType(studioType);
-		studio.setAddress(address);
+		Studio studio = Studio.builder()
+			.studioType(studioType)
+			.address(address)
+			.build();
 		return studio;
 	}
 

@@ -34,31 +34,35 @@ public class StudioApiController {
 	@PostMapping("/api/studios")
 	public StudioDto.Res createStudio(@RequestBody @Valid StudioDto.createReq dto){
 
-		Address address = new Address();
-		address.setCityDistrict(dto.getCityDistrict());
-		address.setStreetAddress(dto.getStreetAddress());
-		address.setZipCode(dto.getZipCode());
-		address.setNearBy(dto.getNearBy());
+		Address address = Address.builder()
+			.cityDistrict(dto.getCityDistrict())
+			.streetAddress(dto.getStreetAddress())
+			.zipCode(dto.getZipCode())
+			.nearBy(dto.getNearBy())
+			.build();
 
-		Option option = new Option();
-		option.setShootingTime(dto.getShootingTime());
-		option.setRetouchingTime(dto.getRetouchingTime());
-		option.setOriginalProvide(dto.getOriginalProvide());
-		option.setPrintPhoto(dto.getPrintPhoto());
-		option.setItem(dto.getItem());
+		Option option = Option.builder()
+			.shootingTime(dto.getShootingTime())
+			.retouchingTime(dto.getRetouchingTime())
+			.originalProvide(dto.getOriginalProvide())
+			.printPhoto(dto.getPrintPhoto())
+			.item(dto.getItem())
+			.build();
 
-		Tag tag = new Tag();
-		tag.setColor(Color.valueOf(dto.getColor()));
-		tag.setBackground(Background.valueOf(dto.getBackground()));
-		tag.setItemExist(dto.getItemExist());
+		Tag tag = Tag.builder()
+			.color(Color.valueOf(dto.getColor()))
+			.background(Background.valueOf(dto.getBackground()))
+			.itemExist(dto.getItemExist())
+			.build();
 
-		Studio studio = new Studio();
-		studio.setStudioName(dto.getStudioName());
-		studio.setStudioType(StudioType.valueOf(dto.getStudioType()));
-		studio.setBio(dto.getBio());
-		studio.setAddress(address);
-		studio.setOption(option);
-		studio.setTag(tag);
+		Studio studio = Studio.builder()
+			.studioName(dto.getStudioName())
+			.studioType(StudioType.valueOf(dto.getStudioType()))
+			.bio(dto.getBio())
+			.address(address)
+			.option(option)
+			.tag(tag)
+			.build();
 
 		Long id = studioService.createStudio(studio);
 		return new StudioDto.Res(studioService.findById(id));

@@ -30,15 +30,15 @@ public class UserApiController {
 
 	@PostMapping("/api/users")
 	public UserDto.Res signUpUser(@RequestBody @Valid UserDto.SiginUpReq dto) {
-		User user = new User();
-		user.setUserName(dto.getUserName());
-		user.setSex(dto.getSex());
-		user.setBirth(dto.getBirth());
-		user.setEmail(dto.getEmail());
-		user.setNickName(dto.getNickName());
-		user.setPhone(dto.getPhone());
-		user.setPassword(dto.getPassword());
-		user.setRoleType(RoleType.USER);
+		User user = User.builder()
+			.userName(dto.getUserName())
+			.sex(dto.getSex())
+			.birth(dto.getBirth())
+			.nickName(dto.getNickName())
+			.phone(dto.getPhone())
+			.password(dto.getPassword())
+			.roleType(RoleType.USER)
+			.build();
 		Long id = userService.createUser(user);
 		return new UserDto.Res(userService.findById(id));
 	}
