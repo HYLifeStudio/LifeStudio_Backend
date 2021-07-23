@@ -79,7 +79,7 @@ public class StudioApiController {
 
 		List<Studio> findStudios;
 
-		if (type.isEmpty() && cityDistrict.isEmpty() ){
+		if (type == null && cityDistrict == null ){
 			findStudios = studioService.findAll();
 		} else {
 			findStudios = studioService.findByStudioTypeAndCityDistrict(StudioType.valueOf(type),cityDistrict );

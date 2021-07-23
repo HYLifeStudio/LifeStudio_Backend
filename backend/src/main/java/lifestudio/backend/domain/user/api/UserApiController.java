@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lifestudio.backend.domain.user.domain.RoleType;
+import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.dto.UserDto;
 import lifestudio.backend.domain.user.dto.UserDto.Res;
@@ -32,8 +33,9 @@ public class UserApiController {
 	public UserDto.Res signUpUser(@RequestBody @Valid UserDto.SiginUpReq dto) {
 		User user = User.builder()
 			.userName(dto.getUserName())
-			.sex(dto.getSex())
+			.sex(Sex.valueOf(dto.getSex()))
 			.birth(dto.getBirth())
+			.email(dto.getEmail())
 			.nickName(dto.getNickName())
 			.phone(dto.getPhone())
 			.password(dto.getPassword())
@@ -43,7 +45,7 @@ public class UserApiController {
 		return new UserDto.Res(userService.findById(id));
 	}
 
-	@GetMapping("/api/users/{id")
+	@GetMapping("/api/users/{id}")
 	public UserDto.Res getUser(@PathVariable final long id) {
 		return new UserDto.Res(userService.findById(id));
 	}
@@ -57,7 +59,7 @@ public class UserApiController {
 		return collect;
 	}
 
-	@DeleteMapping("/api/users/{id")
+	@DeleteMapping("/api/users/{id}")
 	public UserDto.Res deleteUser(@PathVariable final long id) {
 		User user = userService.findById(id);
 		userService.deleteById(id);

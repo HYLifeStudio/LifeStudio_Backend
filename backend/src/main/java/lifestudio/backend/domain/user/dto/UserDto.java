@@ -10,18 +10,21 @@ import lifestudio.backend.domain.user.domain.RoleType;
 import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 public class UserDto {
 
 	@Data
 	@AllArgsConstructor
+	@Builder
 	public static class SiginUpReq {
 
 		private String userName;
 
-		private Sex sex;
+		private String sex;
 
 		private LocalDate birth;
 
@@ -35,8 +38,7 @@ public class UserDto {
 
 	}
 
-
-
+	@Getter
 	public static class Res {
 
 		private Long id;

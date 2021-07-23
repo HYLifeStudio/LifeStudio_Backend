@@ -6,12 +6,14 @@ import lifestudio.backend.domain.review.domain.Review;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 public class ReviewDto {
 
 	@Data
 	@AllArgsConstructor
+	@Builder
 	public static class createReq{
 
 		private Long studioId;
@@ -24,6 +26,7 @@ public class ReviewDto {
 
 	}
 
+	@Data
 	public static class Res {
 
 		private Long id;

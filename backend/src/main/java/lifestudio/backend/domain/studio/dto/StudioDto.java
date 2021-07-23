@@ -21,12 +21,15 @@ import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.domain.StudioType;
 import lifestudio.backend.domain.studio.domain.Tag;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 public class StudioDto {
 
 	@Data
 	@AllArgsConstructor
+	@Builder
 	public static class createReq{
 
 		private String studioName;
@@ -59,11 +62,9 @@ public class StudioDto {
 
 		private Boolean itemExist;
 
-		private List<Photo> photos;
-
-		private List<Review> reviews;
 	}
 
+	@Data
 	public static class Res{
 
 		private Long id;
