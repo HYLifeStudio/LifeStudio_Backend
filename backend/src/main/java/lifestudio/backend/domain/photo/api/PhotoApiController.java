@@ -37,8 +37,8 @@ public class PhotoApiController {
 
 		Photo photo = Photo.builder()
 			.studio(studio)
-			.thumbnailUrl(dto.getTitle())
 			.url(dto.getUrl())
+			.title(dto.getTitle())
 			.thumbnailUrl(dto.getThumbnailUrl())
 			.createdAt(LocalDateTime.now())
 			.build();

@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lifestudio.backend.domain.user.domain.RoleType;
 import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
@@ -26,6 +28,7 @@ public class UserDto {
 
 		private String sex;
 
+		@DateTimeFormat(pattern ="yyyy-MM-dd")
 		private LocalDate birth;
 
 		private String email;

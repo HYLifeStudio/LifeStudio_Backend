@@ -67,8 +67,8 @@ class StudioApiControllerTest {
 		StudioDto.Res bodySungdongRes = studioApiController.createStudio(bodySungdongDto1);
 
 		//when
-		List<StudioDto.Res> allStudios = studioApiController.getStudios(null,null);
-		List<StudioDto.Res> selfYangchunStudios = studioApiController.getStudios("SELF","서울시 양천구");
+		List<StudioDto.summaryRes> allStudios = studioApiController.getStudios(null,null);
+		List<StudioDto.summaryRes> selfYangchunStudios = studioApiController.getStudios("SELF","서울시 양천구");
 		StudioDto.Res fingBodySungdongRes = studioApiController.getStudio(bodySungdongRes.getId());
 
 		//then
@@ -80,7 +80,7 @@ class StudioApiControllerTest {
 
 		//when
 		studioApiController.deleteStudio(selfYangchunRes1.getId());
-		List<StudioDto.Res> selfYangchunStudiosAfterDelete = studioApiController.getStudios("SELF","서울시 양천구");
+		List<StudioDto.summaryRes> selfYangchunStudiosAfterDelete = studioApiController.getStudios("SELF","서울시 양천구");
 
 		//then
 		assertEquals(1,selfYangchunStudiosAfterDelete.size());

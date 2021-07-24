@@ -65,6 +65,30 @@ public class StudioDto {
 	}
 
 	@Data
+	public static class summaryRes {
+
+		private Long id;
+
+		private String studioName;
+
+		private AddressDto.Res address;
+
+		private OptionDto.Res options;
+
+		private String thumbnailUrl;
+
+		private Integer rating;
+
+		public summaryRes(Studio studio){
+			this.id = studio.getId();
+			this.studioName = studio.getStudioName();
+			this.address = new AddressDto.Res(studio.getAddress());
+			this.options = new OptionDto.Res(studio.getOption());
+		}
+
+	}
+
+	@Data
 	public static class Res{
 
 		private Long id;
@@ -75,19 +99,20 @@ public class StudioDto {
 
 		private String bio;
 
-		private Address address;
+		private AddressDto.Res address;
 
-		private Option option;
+		private OptionDto.Res option;
 
-		private Tag tag;
+		private TagDto.Res tag;
 
 		public Res(Studio studio){
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
 			this.studioType = studio.getStudioType();
-			this.address = studio.getAddress();
-			this.option = studio.getOption();
-			this.tag = studio.getTag();
+			this.bio = studio.getBio();
+			this.address = new AddressDto.Res(studio.getAddress());
+			this.option = new OptionDto.Res(studio.getOption());
+			this.tag = new TagDto.Res(studio.getTag());
 		}
 	}
 }

@@ -22,4 +22,11 @@ public class Address {
     private String zipCode;
     private String nearBy;
 
+    public String summaryAddress(){
+        return this.cityDistrict + " " + this.streetAddress;
+    }
+
+    public String detailAddress() {
+        return this.nearBy + " " + this.cityDistrict + " " + this.streetAddress + " " + this.zipCode;
+    }
 }

@@ -74,7 +74,7 @@ public class StudioApiController {
 	}
 
 	@GetMapping("/api/studios")
-	public List<StudioDto.Res> getStudios(@RequestParam(required = false) String type,
+	public List<StudioDto.summaryRes> getStudios(@RequestParam(required = false) String type,
 		@RequestParam(required = false) String cityDistrict) {
 
 		List<Studio> findStudios;
@@ -85,8 +85,8 @@ public class StudioApiController {
 			findStudios = studioService.findByStudioTypeAndCityDistrict(StudioType.valueOf(type),cityDistrict );
 		}
 
-		List<StudioDto.Res> collect = findStudios.stream()
-			.map(s -> new StudioDto.Res(s))
+		List<StudioDto.summaryRes> collect = findStudios.stream()
+			.map(s -> new StudioDto.summaryRes(s))
 			.collect(Collectors.toList());
 		return collect;
 	}
