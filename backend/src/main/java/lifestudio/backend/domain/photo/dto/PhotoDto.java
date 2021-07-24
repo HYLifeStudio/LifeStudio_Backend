@@ -9,12 +9,14 @@ import javax.persistence.ManyToOne;
 import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 public class PhotoDto {
 
 	@Data
 	@AllArgsConstructor
+	@Builder
 	public static class createReq {
 
 		private Long studioId;
@@ -28,6 +30,7 @@ public class PhotoDto {
 	}
 
 
+	@Data
 	public static class Res {
 
 		private Long id;
@@ -53,5 +56,37 @@ public class PhotoDto {
 			this.createdAt = photo.getCreatedAt();
 			this.updatedAt = photo.getUpdatedAt();
 		}
+	}
+
+	@Data
+	public static class PhotoWithLikeRes{
+
+		private Long id;
+
+		private Studio studio;
+
+		private String title;
+
+		private String url;
+
+		private String thumbnailUrl;
+
+		private Boolean isLiked;
+
+		private LocalDateTime createdAt;
+
+		private LocalDateTime updatedAt;
+
+		public PhotoWithLikeRes(Photo photo, Boolean isLiked){
+			this.id = photo.getId();
+			this.studio = photo.getStudio();
+			this.title = photo.getTitle();
+			this.url = photo.getUrl();
+			this.thumbnailUrl = photo.getThumbnailUrl();
+			this.isLiked = isLiked;
+			this.createdAt = photo.getCreatedAt();
+			this.updatedAt = photo.getUpdatedAt();
+		}
+
 	}
 }

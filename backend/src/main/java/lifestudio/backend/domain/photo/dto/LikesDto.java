@@ -11,24 +11,23 @@ import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.user.domain.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 public class LikesDto {
 
 	@Data
 	@AllArgsConstructor
+	@Builder
 	public static class createReq {
 
 		private Long userId;
 
 		private Long photoId;
 
-		private Boolean isLiked;
-
-
-
 	}
 
+	@Data
 	public static class Res {
 
 		private Long id;

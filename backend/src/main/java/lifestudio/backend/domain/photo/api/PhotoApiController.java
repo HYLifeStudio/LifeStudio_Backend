@@ -19,7 +19,7 @@ import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.photo.dto.PhotoDto;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.service.StudioService;
-import lifestudio.backend.domain.user.domain.User;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -68,6 +68,34 @@ public class PhotoApiController {
 			.map(p -> new PhotoDto.Res(p))
 			.collect(Collectors.toList());
 		return collect;
+	}
+
+	@GetMapping("api/photo-likes")
+	public List<PhotoDto.PhotoWithLikeRes> getPhotoWithLikes(
+		@RequestParam(required = false) String studioType,
+		@RequestParam(required = false) String color,
+		@RequestParam(required = false) String background,
+		@RequestParam(required = false) Boolean itemExist,
+		@RequestParam(required = false) Long userId
+	){
+
+		List<Photo> collect;
+
+		if (studioType == null && color == null && background == null && itemExist == null){
+			 collect = photoService.findAll();
+		}else {
+			collect = photoService
+				.findByTagsAndStudioType(studioType, color, background, itemExist);
+		}
+
+		List<PhotoDto.PhotoWithLikeRes> ResCollect = collect.stream()
+			.map(p -> {
+				Boolean isLiked = userId == null ? false : photoService.LikeCheck(p.getId(), userId);
+				return new PhotoDto.PhotoWithLikeRes(p, isLiked);
+			})
+			.collect(Collectors.toList());
+
+		return ResCollect;
 	}
 
 	@DeleteMapping("/api/photos/{id}")

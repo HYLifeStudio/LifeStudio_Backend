@@ -1,11 +1,14 @@
 package lifestudio.backend.domain.photo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lifestudio.backend.domain.photo.domain.Likes;
 import lifestudio.backend.domain.photo.domain.Photo;
+import lifestudio.backend.domain.photo.repository.LikesRepository;
 import lifestudio.backend.domain.photo.repository.PhotoRepository;
 import lifestudio.backend.domain.studio.domain.Background;
 import lifestudio.backend.domain.studio.domain.Color;
@@ -18,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 public class PhotoService {
 
 	private final PhotoRepository photoRepository;
+
+	private  final LikesRepository likesRepository;
 
 	@Transactional
 	public Long createPhoto(Photo photo){
@@ -37,13 +42,23 @@ public class PhotoService {
 		return photoRepository.findByStudioId(studioId);
 	}
 
-	public List<Photo> findByTagsAndStudioType(StudioType studioType, Color color, Background background, Boolean itemExist){
-		return photoRepository.findByTagsAndStudioType(studioType,color,background,itemExist);
+	public List<Photo> findByTagsAndStudioType(String studioType, String color, String background, Boolean itemExist){
+		return photoRepository
+			.findByTagsAndStudioType(StudioType.valueOf(studioType),Color.valueOf(color),Background.valueOf(background),itemExist);
 	}
 
 	@Transactional
 	public Long deleteById(Long photoId){
 		photoRepository.deleteById(photoId);
 		return photoId;
+	}
+
+	public Boolean LikeCheck(Long photoId, Long userId){
+		Optional<Likes> like = likesRepository.findByPhotoIdAndUserId(userId,photoId);
+		if (like.isEmpty()){
+			return false;
+		} else {
+			return like.get().getIsLiked();
+		}
 	}
 }

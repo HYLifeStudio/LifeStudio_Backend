@@ -33,20 +33,9 @@ public class LikesApiController {
 	private final PhotoService photoService;
 
 	@PostMapping("/api/likes")
-	public LikesDto.Res createLike(@RequestBody @Valid LikesDto.createReq dto){
-
-		Photo photo = photoService.findById(dto.getPhotoId());
-		User user = userService.findById(dto.getPhotoId());
-
-		Likes like = Likes.builder()
-			.user(user)
-			.photo(photo)
-			.isLiked(dto.getIsLiked())
-			.build();
-
-		Long id = likesService.createLikes(like);
+	public LikesDto.Res LikeByPhotoAndUserId(@RequestBody @Valid LikesDto.createReq dto){
+		Long id = likesService.updateLikes(dto.getUserId(),dto.getPhotoId());
 		return new LikesDto.Res(likesService.findById(id));
-
 	}
 
 	@GetMapping("/api/likes/{id}")

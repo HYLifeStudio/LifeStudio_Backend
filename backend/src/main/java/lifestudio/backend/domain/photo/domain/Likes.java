@@ -33,4 +33,8 @@ public class Likes {
 
     private Boolean isLiked;
 
+    public void changeLike(){
+        this.isLiked = !this.isLiked;
+    }
+
 }

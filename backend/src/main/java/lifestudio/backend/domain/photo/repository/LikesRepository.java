@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
 
@@ -44,11 +45,16 @@ public class LikesRepository {
 	}
 
 	public Optional<Likes> findByPhotoIdAndUserId(Long userId, Long photoId) {
-		Likes like = em.createQuery("select l from Likes l where l.photo.id = :photoId "
-			+ "and l.user.id = :userId", Likes.class)
-			.setParameter("userId", userId)
-			.setParameter("photoId", photoId)
-			.getSingleResult();
-		return Optional.ofNullable(like);
+		try{
+			Likes like = em.createQuery("select l from Likes l where l.photo.id = :photoId "
+				+ "and l.user.id = :userId", Likes.class)
+				.setParameter("userId", userId)
+				.setParameter("photoId", photoId)
+				.getSingleResult();
+			return Optional.ofNullable(like);
+		} catch (NoResultException e){
+			return Optional.ofNullable(null);
+		}
+
 	}
 }
