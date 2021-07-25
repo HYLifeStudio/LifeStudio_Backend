@@ -35,7 +35,7 @@ public class PhotoDto {
 
 		private Long id;
 
-		private Studio studio;
+		private Long studioId;
 
 		private String title;
 
@@ -49,7 +49,7 @@ public class PhotoDto {
 
 		public Res(Photo photo){
 			this.id = photo.getId();
-			this.studio = photo.getStudio();
+			this.studioId = photo.getStudio().getId();
 			this.title = photo.getTitle();
 			this.url = photo.getUrl();
 			this.thumbnailUrl = photo.getThumbnailUrl();
@@ -63,7 +63,7 @@ public class PhotoDto {
 
 		private Long id;
 
-		private Studio studio;
+		private Long studioId;
 
 		private String title;
 
@@ -79,7 +79,7 @@ public class PhotoDto {
 
 		public PhotoWithLikeRes(Photo photo, Boolean isLiked){
 			this.id = photo.getId();
-			this.studio = photo.getStudio();
+			this.studioId = photo.getStudio().getId();
 			this.title = photo.getTitle();
 			this.url = photo.getUrl();
 			this.thumbnailUrl = photo.getThumbnailUrl();

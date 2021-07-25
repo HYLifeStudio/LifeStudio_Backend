@@ -31,9 +31,9 @@ public class ReviewDto {
 
 		private Long id;
 
-		private Studio studio;
+		private Long studioId;
 
-		private User user;
+		private Long userId;
 
 		private String content;
 
@@ -45,8 +45,8 @@ public class ReviewDto {
 
 		public Res(Review review){
 			this.id = review.getId();
-			this.studio = review.getStudio();
-			this.user = review.getUser();
+			this.studioId = review.getStudio().getId();
+			this.userId = review.getUser().getId();
 			this.content = review.getContent();
 			this.rating = review.getRating();
 			this.createdAt = review.getCreatedAt();

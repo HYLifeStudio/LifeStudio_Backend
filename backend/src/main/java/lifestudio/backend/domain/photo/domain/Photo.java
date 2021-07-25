@@ -26,7 +26,6 @@ public class Photo {
     @Column(name = "photo_id")
     private Long id;
 
-    @JsonIgnore
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
     private Studio studio;

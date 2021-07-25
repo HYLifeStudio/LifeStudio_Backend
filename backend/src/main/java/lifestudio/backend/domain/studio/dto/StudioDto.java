@@ -1,7 +1,13 @@
 package lifestudio.backend.domain.studio.dto;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -11,8 +17,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.cglib.core.CollectionUtils;
+
 import lifestudio.backend.domain.photo.domain.Photo;
+import lifestudio.backend.domain.photo.dto.PhotoDto;
 import lifestudio.backend.domain.review.domain.Review;
+import lifestudio.backend.domain.review.dto.ReviewDto;
 import lifestudio.backend.domain.studio.domain.Address;
 import lifestudio.backend.domain.studio.domain.Background;
 import lifestudio.backend.domain.studio.domain.Color;
@@ -75,17 +85,18 @@ public class StudioDto {
 
 		private OptionDto.Res options;
 
-		private String thumbnailUrl;
+		private PhotoDto.Res representativePhoto;
 
-		private Integer rating;
+		private Integer ratingAverage;
 
-		public summaryRes(Studio studio){
+		public summaryRes(Studio studio) {
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
 			this.address = new AddressDto.Res(studio.getAddress());
 			this.options = new OptionDto.Res(studio.getOption());
+			this.representativePhoto = studio.getPhotos().isEmpty() ? null : new PhotoDto.Res(studio.getPhotos().get(0));
+			this.ratingAverage = studio.getReviewRatingAverage();
 		}
-
 	}
 
 	@Data
@@ -105,6 +116,11 @@ public class StudioDto {
 
 		private TagDto.Res tag;
 
+		private List<PhotoDto.Res> photos = new ArrayList<PhotoDto.Res>();
+
+		private List<ReviewDto.Res> reviews = new ArrayList<ReviewDto.Res>();
+
+
 		public Res(Studio studio){
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
@@ -113,6 +129,16 @@ public class StudioDto {
 			this.address = new AddressDto.Res(studio.getAddress());
 			this.option = new OptionDto.Res(studio.getOption());
 			this.tag = new TagDto.Res(studio.getTag());
+			this.photos = Optional.ofNullable(studio.getPhotos())
+				.map(Collection::stream)
+				.orElseGet(Stream::empty)
+				.map(p->new PhotoDto.Res(p))
+				.collect(Collectors.toList());
+			this.reviews = Optional.ofNullable(studio.getReviews())
+				.map(Collection::stream)
+				.orElseGet(Stream::empty)
+				.map(r->new ReviewDto.Res(r))
+				.collect(Collectors.toList());
 		}
 	}
 }

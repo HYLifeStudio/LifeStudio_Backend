@@ -42,4 +42,23 @@ public class Studio {
     @Embedded
     private Tag tag;
 
+    @OneToMany(mappedBy = "studio")
+    private List<Photo> photos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "studio")
+    private List<Review> reviews = new ArrayList<>();
+
+    public Integer getReviewRatingAverage(){
+        int sum = 0;
+        if(reviews.isEmpty()){
+            return null;
+        } else {
+            sum = this.reviews.stream()
+                .mapToInt(Review::getRating)
+                .sum();
+            return sum/reviews.size();
+        }
+    }
+
+
 }
