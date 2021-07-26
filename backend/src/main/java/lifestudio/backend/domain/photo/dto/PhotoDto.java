@@ -41,8 +41,6 @@ public class PhotoDto {
 
 		private String url;
 
-		private String thumbnailUrl;
-
 		private LocalDateTime createdAt;
 
 		private LocalDateTime updatedAt;
@@ -52,7 +50,6 @@ public class PhotoDto {
 			this.studioId = photo.getStudio().getId();
 			this.title = photo.getTitle();
 			this.url = photo.getUrl();
-			this.thumbnailUrl = photo.getThumbnailUrl();
 			this.createdAt = photo.getCreatedAt();
 			this.updatedAt = photo.getUpdatedAt();
 		}
@@ -69,20 +66,23 @@ public class PhotoDto {
 
 		private String url;
 
-		private String thumbnailUrl;
-
 		private Boolean isLiked;
+
+		private Long likeId;
+
+		private Boolean likeIsExisted;
 
 		private LocalDateTime createdAt;
 
 		private LocalDateTime updatedAt;
 
-		public PhotoWithLikeRes(Photo photo, Boolean isLiked){
+		public PhotoWithLikeRes(Photo photo,Long likeId ,Boolean likeIsExisted ,Boolean isLiked){
 			this.id = photo.getId();
 			this.studioId = photo.getStudio().getId();
 			this.title = photo.getTitle();
 			this.url = photo.getUrl();
-			this.thumbnailUrl = photo.getThumbnailUrl();
+			this.likeId = likeId;
+			this.likeIsExisted = likeIsExisted;
 			this.isLiked = isLiked;
 			this.createdAt = photo.getCreatedAt();
 			this.updatedAt = photo.getUpdatedAt();

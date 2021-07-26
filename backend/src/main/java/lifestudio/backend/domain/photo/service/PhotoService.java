@@ -54,11 +54,11 @@ public class PhotoService {
 	}
 
 	public Boolean LikeCheck(Long photoId, Long userId){
-		Optional<Likes> like = likesRepository.findByPhotoIdAndUserId(userId,photoId);
+		List<Likes> like = likesRepository.findByUserIdAndPhotoId(userId,photoId);
 		if (like.isEmpty()){
 			return false;
 		} else {
-			return like.get().getIsLiked();
+			return like.get(0).getIsLiked();
 		}
 	}
 }

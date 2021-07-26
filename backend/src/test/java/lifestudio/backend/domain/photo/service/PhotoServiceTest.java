@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import lifestudio.backend.domain.photo.domain.Likes;
 import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.service.UserService;
@@ -37,7 +38,14 @@ class PhotoServiceTest {
 		Photo photo2 = Photo.builder().build();
 		Long photo2Id = photoService.createPhoto(photo2);
 
-		likesService.updateLikes(user1Id,photo1Id);
+		Likes user1Photo1Likes = Likes.builder()
+			.user(user1)
+			.photo(photo1)
+			.isLiked(true)
+			.build();
+
+		likesService.createLikes(user1Photo1Likes);
+
 
 		//when
 		Boolean isLikedPhoto1 = photoService.LikeCheck(photo1Id,user1Id);

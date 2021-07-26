@@ -75,9 +75,9 @@ class LikesRepositoryTest {
 		likeRepository.save(likeWithUser2AndPhoto2);
 
 		//when
-		Likes findLikeWithUser1Photo1 = likeRepository.findByPhotoIdAndUserId(user1.getId(),photo1.getId()).get();
-		Likes findLikeWithUser2Photo1 = likeRepository.findByPhotoIdAndUserId(user2.getId(),photo1.getId()).get();
-		Likes findLikeWithUser2Photo2 = likeRepository.findByPhotoIdAndUserId(user2.getId(), photo2.getId()).get();
+		Likes findLikeWithUser1Photo1 = likeRepository.findByUserIdAndPhotoId(user1.getId(),photo1.getId()).get(0);
+		Likes findLikeWithUser2Photo1 = likeRepository.findByUserIdAndPhotoId(user2.getId(),photo1.getId()).get(0);
+		Likes findLikeWithUser2Photo2 = likeRepository.findByUserIdAndPhotoId(user2.getId(), photo2.getId()).get(0);
 
 		//then
 		assertEquals(likeWithUser1AndPhoto1, findLikeWithUser1Photo1);

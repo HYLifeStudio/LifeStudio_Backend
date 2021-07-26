@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +86,7 @@ class PhotoApiControllerTest {
 		PhotoDto.Res photoRes = photoApiController.createPhoto(dto);
 
 		//then
-		assertEquals(photoRes.getStudio().getId(), creatStudioId);
+		assertEquals(photoRes.getStudioId(), creatStudioId);
 	}
 
 	@Test
@@ -117,7 +116,13 @@ class PhotoApiControllerTest {
 
 		Long photoId = photo1InSelfStudioWithTag1.getId();
 
-		likesService.updateLikes(user1Id,photoId);
+		Likes user1PhotoLike = Likes.builder()
+			.user(userService.findById(user1Id))
+			.photo(photoService.findById(photoId))
+			.isLiked(true)
+			.build();
+
+		likesService.createLikes(user1PhotoLike);
 
 		//when
 		List<PhotoDto.PhotoWithLikeRes> selfStudioWithTag1Res =  photoApiController

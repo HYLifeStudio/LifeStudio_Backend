@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lifestudio.backend.domain.photo.domain.Likes;
@@ -33,9 +35,20 @@ public class LikesApiController {
 	private final PhotoService photoService;
 
 	@PostMapping("/api/likes")
-	public LikesDto.Res LikeByPhotoAndUserId(@RequestBody @Valid LikesDto.createReq dto){
-		Long id = likesService.updateLikes(dto.getUserId(),dto.getPhotoId());
-		return new LikesDto.Res(likesService.findById(id));
+	public LikesDto.Res createLike(@RequestBody @Valid LikesDto.createReq dto){
+		Likes like = Likes.builder()
+			.user(userService.findById(dto.getUserId()))
+			.photo(photoService.findById(dto.getPhotoId()))
+			.isLiked(true)
+			.build();
+		Long likeId = likesService.createLikes(like);
+		return new LikesDto.Res(likesService.findById(likeId));
+	}
+
+	@PutMapping("api/likes/{id}")
+	public LikesDto.Res updateLike(@PathVariable final long id) {
+		Long updateId = likesService.updateLikes(id);
+		return new LikesDto.Res(likesService.findById(updateId));
 	}
 
 	@GetMapping("/api/likes/{id}")
@@ -44,9 +57,14 @@ public class LikesApiController {
 	}
 
 	@GetMapping("/api/likes")
-	public List<LikesDto.Res> getLikes() {
-
-		List<Likes> findLikes = likesService.findAll();
+	public List<LikesDto.Res> getLikes(@RequestParam(required = false) Long userId,
+		@RequestParam(required = false) Long photoId) {
+		List<Likes> findLikes;
+		if (userId == null && photoId == null) {
+			findLikes = likesService.findAll();
+		} else {
+			findLikes = likesService.findByUserIdAndPhotoId(userId,photoId);
+		}
 
 		List<LikesDto.Res> collect = findLikes.stream()
 			.map(l -> new LikesDto.Res(l))

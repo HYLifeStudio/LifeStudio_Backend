@@ -32,16 +32,18 @@ public class LikesDto {
 
 		private Long id;
 
-		private User user;
+		private Long userId;
 
-		private Photo photo;
+		private Long photoId;
 
 		private Boolean isLiked;
 
+		private Boolean isExisted;
+
 		public Res(Likes likes){
 			this.id = likes.getId();
-			this.user = likes.getUser();
-			this.photo = likes.getPhoto();
+			this.userId = likes.getUser().getId();
+			this.photoId = likes.getPhoto().getId();
 			this.isLiked = likes.getIsLiked();
 		}
 	}

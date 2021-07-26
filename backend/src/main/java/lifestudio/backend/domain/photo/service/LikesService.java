@@ -33,19 +33,10 @@ public class LikesService {
 	}
 
 	@Transactional
-	public Long updateLikes(Long userId, Long photoID){
-		Optional<Likes> like = likeRepository.findByPhotoIdAndUserId(userId, photoID);
-		if (like.isEmpty()){
-			Likes createlikes = Likes.builder()
-				.user(userRepository.findById(userId).get())
-				.photo(photoRepository.findById(photoID).get())
-				.isLiked(true)
-				.build();
-			return createLikes(createlikes);
-		} else {
+	public Long updateLikes(Long id){
+		Optional<Likes> like = likeRepository.findById(id);
 			like.get().changeLike();
 			return like.get().getId();
-		}
 	}
 
 	public Likes findById(Long likeId){
@@ -56,13 +47,8 @@ public class LikesService {
 		return likeRepository.findAll();
 	}
 
-	public Likes findByPhotoIdAndUserId(Long userId, Long photoId){
-		Optional<Likes> like = likeRepository.findByPhotoIdAndUserId(userId, photoId);
-		if (like.isEmpty()){
-			return null;
-		} else {
-			return like.get();
-		}
+	public List<Likes> findByUserIdAndPhotoId(Long userId, Long photoId){
+		return likeRepository.findByUserIdAndPhotoId(userId, photoId);
 	}
 
 	@Transactional

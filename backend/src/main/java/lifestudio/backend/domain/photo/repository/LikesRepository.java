@@ -44,17 +44,11 @@ public class LikesRepository {
 			.getResultList();
 	}
 
-	public Optional<Likes> findByPhotoIdAndUserId(Long userId, Long photoId) {
-		try{
-			Likes like = em.createQuery("select l from Likes l where l.photo.id = :photoId "
+	public List<Likes> findByUserIdAndPhotoId(Long userId, Long photoId) {
+		return em.createQuery("select l from Likes l where l.photo.id = :photoId "
 				+ "and l.user.id = :userId", Likes.class)
 				.setParameter("userId", userId)
 				.setParameter("photoId", photoId)
-				.getSingleResult();
-			return Optional.ofNullable(like);
-		} catch (NoResultException e){
-			return Optional.ofNullable(null);
-		}
-
+				.getResultList();
 	}
 }

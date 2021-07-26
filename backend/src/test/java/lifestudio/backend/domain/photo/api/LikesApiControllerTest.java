@@ -43,8 +43,8 @@ class LikesApiControllerTest {
 			.build();
 
 		//when
-		LikesDto.Res likeRes = likesApiController.LikeByPhotoAndUserId(dto);
-		LikesDto.Res AfterlikeRes = likesApiController.LikeByPhotoAndUserId(dto);
+		LikesDto.Res likeRes = likesApiController.createLike(dto);
+		LikesDto.Res AfterlikeRes = likesApiController.updateLike(likeRes.getId());
 
 		//then
 		assertEquals(true, likeRes.getIsLiked());

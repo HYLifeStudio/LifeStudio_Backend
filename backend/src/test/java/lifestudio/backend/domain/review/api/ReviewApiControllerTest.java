@@ -59,8 +59,8 @@ class ReviewApiControllerTest {
 		ReviewDto.Res createReview = reviewApiController.createReview(dto);
 
 		//then
-		assertEquals(dto.getUserId(), createReview.getUser().getId());
-		assertEquals(dto.getStudioId(), createReview.getStudio().getId());
+		assertEquals(dto.getUserId(), createReview.getUserId());
+		assertEquals(dto.getStudioId(), createReview.getStudioId());
 	}
 
 	@Test

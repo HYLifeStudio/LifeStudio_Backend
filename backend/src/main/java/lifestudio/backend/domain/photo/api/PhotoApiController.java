@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lifestudio.backend.domain.photo.service.LikesService;
 import lifestudio.backend.domain.photo.service.PhotoService;
 import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.photo.dto.PhotoDto;
@@ -29,6 +30,8 @@ public class PhotoApiController {
 	private final PhotoService photoService;
 
 	private final StudioService studioService;
+
+	private final LikesService likesService;
 
 	@PostMapping("/api/photos")
 	public PhotoDto.Res createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
@@ -90,8 +93,10 @@ public class PhotoApiController {
 
 		List<PhotoDto.PhotoWithLikeRes> ResCollect = collect.stream()
 			.map(p -> {
-				Boolean isLiked = userId == null ? false : photoService.LikeCheck(p.getId(), userId);
-				return new PhotoDto.PhotoWithLikeRes(p, isLiked);
+				Boolean likeIsExisted = userId == null ? false : !likesService.findByUserIdAndPhotoId(userId,p.getId()).isEmpty();
+				Boolean isLiked = likeIsExisted ? photoService.LikeCheck(p.getId(), userId) : false ;
+				Long likeId = likeIsExisted ? likesService.findByUserIdAndPhotoId(userId,p.getId()).get(0).getId() : 0;
+				return new PhotoDto.PhotoWithLikeRes(p, likeId, likeIsExisted, isLiked);
 			})
 			.collect(Collectors.toList());
 
