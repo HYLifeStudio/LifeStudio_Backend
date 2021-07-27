@@ -43,10 +43,11 @@ public class UserRepository {
 			.getResultList();
 	}
 
-	public List<User> findByEmail(String email) {
-		return em.createQuery("select u from User u where u.email = :email", User.class)
+	public Optional<User> findByEmail(String email) {
+		User user = em.createQuery("select u from User u where u.email = :email", User.class)
 			.setParameter("email", email)
-			.getResultList();
+			.getSingleResult();
+		return Optional.ofNullable(user);
 	}
 
 

@@ -73,10 +73,10 @@ class UserRepositoryTest {
 		userRepository.save(user3);
 
 		//when
-		List<User> findEmailUsers = userRepository.findByEmail(user1.getEmail());
+		User findEmailUser = userRepository.findByEmail(user1.getEmail()).get();
 
 		//then
-		assertEquals(2, findEmailUsers.size());
+		assertEquals("zxcvb5435@likelion.org", findEmailUser.getEmail());
 	}
 
 	private User UserWithEmail(String email) {

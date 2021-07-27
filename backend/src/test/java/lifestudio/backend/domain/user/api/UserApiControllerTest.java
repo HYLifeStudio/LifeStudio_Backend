@@ -29,7 +29,7 @@ class UserApiControllerTest {
 		//given
 
 		UserDto.SiginUpReq dto = UserDto.SiginUpReq.builder()
-			.userName("윤승권")
+			.name("윤승권")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
 			.email("zxcvb5434@likelion.org")
@@ -50,7 +50,7 @@ class UserApiControllerTest {
 
 		//given
 		UserDto.SiginUpReq dto1 = UserDto.SiginUpReq.builder()
-			.userName("윤승권")
+			.name("윤승권")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
 			.email("zxcvb5434@likelion.org")
@@ -60,7 +60,7 @@ class UserApiControllerTest {
 			.build();
 
 		UserDto.SiginUpReq dto2 = UserDto.SiginUpReq.builder()
-			.userName("안경록")
+			.name("안경록")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
 			.email("zxcvb5234@likelion.org")

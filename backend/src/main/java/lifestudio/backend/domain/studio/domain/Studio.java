@@ -42,9 +42,11 @@ public class Studio {
     @Embedded
     private Tag tag;
 
+    @Builder.Default
     @OneToMany(mappedBy = "studio")
     private List<Photo> photos = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "studio")
     private List<Review> reviews = new ArrayList<>();
 

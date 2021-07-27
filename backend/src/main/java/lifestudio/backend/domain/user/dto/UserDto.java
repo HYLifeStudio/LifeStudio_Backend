@@ -24,7 +24,7 @@ public class UserDto {
 	@Builder
 	public static class SiginUpReq {
 
-		private String userName;
+		private String name;
 
 		private String sex;
 
@@ -41,12 +41,23 @@ public class UserDto {
 
 	}
 
+	@Data
+	@AllArgsConstructor
+	@Builder
+	public static class LoginReq {
+
+		private String email;
+
+		private String password;
+
+	}
+
 	@Getter
 	public static class Res {
 
 		private Long id;
 
-		private String userName;
+		private String name;
 
 		private Sex sex;
 
@@ -62,7 +73,7 @@ public class UserDto {
 
 		public Res(User user) {
 			this.id = user.getId();
-			this.userName = user.getUserName();
+			this.name = user.getName();
 			this.sex = user.getSex();
 			this.birth = user.getBirth();
 			this.email = user.getEmail();

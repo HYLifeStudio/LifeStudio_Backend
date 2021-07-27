@@ -1,6 +1,7 @@
 package lifestudio.backend.domain.user.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +41,10 @@ public class UserService {
 	public Long deleteById(Long userId) {
 		userRepository.deleteById(userId);
 		return userId;
+	}
+
+	public Optional<User> findByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 
 }
