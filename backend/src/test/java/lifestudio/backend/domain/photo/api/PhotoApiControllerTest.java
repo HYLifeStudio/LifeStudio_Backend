@@ -93,44 +93,17 @@ class PhotoApiControllerTest {
 	public void 스튜디오유형과태그로사진찾기(){
 
 		//when
-		List<PhotoDto.PhotoWithLikeRes> selfStudioWithTag1Res =  photoApiController
-			.getPhotoWithLikes("SELF","COLOR","PATTERN",true,null);
+		List<PhotoDto.Res> selfStudioWithTag1Res =  photoApiController
+			.getPhotos("SELF");
 
-		List<PhotoDto.PhotoWithLikeRes> selfStudioWithTag2Res = photoApiController
-			.getPhotoWithLikes("SELF","BLACKANDWHITE","PATTERN",true,null);
+		List<PhotoDto.Res> selfStudioWithTag2Res = photoApiController
+			.getPhotos("SELF");
 		//then
 		assertEquals(2,selfStudioWithTag1Res.size());
 		assertEquals(1,selfStudioWithTag2Res.size());
-		assertEquals(false,selfStudioWithTag1Res.get(0).getIsLiked());
 	}
 
-	@Test
-	public void 사진과좋아요같이조회(){
 
-		//given
-		User user1 = User.builder().build();
-		Long user1Id = userService.createUser(user1);
-
-		Photo photo1InSelfStudioWithTag1 = photoService
-			.findByTagsAndStudioType("SELF","COLOR","PATTERN",true).get(0);
-
-		Long photoId = photo1InSelfStudioWithTag1.getId();
-
-		Likes user1PhotoLike = Likes.builder()
-			.user(userService.findById(user1Id))
-			.photo(photoService.findById(photoId))
-			.isLiked(true)
-			.build();
-
-		likesService.createLikes(user1PhotoLike);
-
-		//when
-		List<PhotoDto.PhotoWithLikeRes> selfStudioWithTag1Res =  photoApiController
-			.getPhotoWithLikes("SELF","COLOR","PATTERN",true,user1Id);
-
-		//then
-		assertEquals(true,selfStudioWithTag1Res.get(0).getIsLiked());
-	}
 
 	private Studio StudiowithTagAndStudioType(Tag tag, StudioType studioType) {
 		Studio studio = Studio.builder()

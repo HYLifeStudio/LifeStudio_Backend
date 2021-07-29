@@ -56,48 +56,19 @@ public class PhotoApiController {
 		return new PhotoDto.Res(photoService.findById(id));
 	}
 
-	@GetMapping("/api/photos")
-	public List<PhotoDto.Res> getPhotos(@RequestParam(required = false) Long studioId) {
-
-		List<Photo> findPhotos;
-
-		if ( studioId == null ){
-			findPhotos = photoService.findAll();
-		} else {
-			findPhotos = photoService.findByStudioId(studioId);
-		}
-
-		List<PhotoDto.Res> collect = findPhotos.stream()
-			.map(p -> new PhotoDto.Res(p))
-			.collect(Collectors.toList());
-		return collect;
-	}
-
-	@GetMapping("api/photo-likes")
-	public List<PhotoDto.PhotoWithLikeRes> getPhotoWithLikes(
-		@RequestParam(required = false) String studioType,
-		@RequestParam(required = false) String color,
-		@RequestParam(required = false) String background,
-		@RequestParam(required = false) Boolean itemExist,
-		@RequestParam(required = false) Long userId
-	){
+	@GetMapping("api/photos")
+	public List<PhotoDto.Res> getPhotos(@RequestParam(required = false) String studioType){
 
 		List<Photo> collect;
 
-		if (studioType == null && color == null && background == null && itemExist == null){
+		if (studioType == null){
 			 collect = photoService.findAll();
 		}else {
-			collect = photoService
-				.findByTagsAndStudioType(studioType, color, background, itemExist);
+			 collect = photoService.findByStudioType(studioType);
 		}
 
-		List<PhotoDto.PhotoWithLikeRes> ResCollect = collect.stream()
-			.map(p -> {
-				Boolean likeIsExisted = userId == null ? false : !likesService.findByUserIdAndPhotoId(userId,p.getId()).isEmpty();
-				Boolean isLiked = likeIsExisted ? photoService.LikeCheck(p.getId(), userId) : false ;
-				Long likeId = likeIsExisted ? likesService.findByUserIdAndPhotoId(userId,p.getId()).get(0).getId() : 0;
-				return new PhotoDto.PhotoWithLikeRes(p, likeId, likeIsExisted, isLiked);
-			})
+		List<PhotoDto.Res> ResCollect = collect.stream()
+			.map(p -> new PhotoDto.Res(p))
 			.collect(Collectors.toList());
 
 		return ResCollect;

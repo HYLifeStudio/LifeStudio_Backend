@@ -38,8 +38,6 @@ public class LikesDto {
 
 		private Boolean isLiked;
 
-		private Boolean isExisted;
-
 		public Res(Likes likes){
 			this.id = likes.getId();
 			this.userId = likes.getUser().getId();

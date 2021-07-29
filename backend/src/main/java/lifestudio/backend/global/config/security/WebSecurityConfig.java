@@ -42,11 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()// 요청에 대한 사용권한 체크
-				.antMatchers("/api/auth/**").permitAll()
-				.antMatchers(HttpMethod.GET,"/api/studios").permitAll()
-				.antMatchers(HttpMethod.GET,"/api/photos").permitAll()
-				.antMatchers(HttpMethod.GET,"/api/photo-likes").permitAll()
-				.anyRequest().hasRole("USER") // 그외 나머지 요청은 인증된 회원만 가능
+				.antMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+				.antMatchers(HttpMethod.GET,"/api/users/**","/api/photos/**","/api/studios/**").permitAll()
+				.antMatchers(HttpMethod.PUT,"/api/users/**","/api/photos/**","/api/studios/**").hasRole("USER")
+				.antMatchers("/api/reviews/**", "/api/likes/**").hasRole("USER")
+				.anyRequest().hasRole("ADMIN") // 그외 나머지 요청은 관리자만 가능
 				.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);

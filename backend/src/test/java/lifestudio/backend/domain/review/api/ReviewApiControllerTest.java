@@ -85,20 +85,18 @@ class ReviewApiControllerTest {
 		Review user2Studio1Review = createReviewWithUserAndStudio(creatUser2Id, creatStudio1Id);
 
 		//when
-		List<ReviewDto.Res> allReviews = reviewApiController.getReviews(null);
-		List<ReviewDto.Res> studio1Reviews = reviewApiController.getReviews(creatStudio1Id);
+		List<ReviewDto.Res> allReviews = reviewApiController.getReviews();
 		ReviewDto.Res user2Studio1ReviewRes = reviewApiController.getReview(user2Studio1Review.getId());
 
 		//then
 		assertEquals(3,allReviews.size());
-		assertEquals(2,studio1Reviews.size());
 		assertEquals(user2Studio1Review.getId(),user2Studio1ReviewRes.getId());
 
 		//삭제
 
 		//when
 		reviewApiController.deleteReview(user2Studio1Review.getId());
-		List<ReviewDto.Res> allReviewsAfterDelete = reviewApiController.getReviews(null);
+		List<ReviewDto.Res> allReviewsAfterDelete = reviewApiController.getReviews();
 
 		//then
 		assertEquals(2,allReviewsAfterDelete.size());

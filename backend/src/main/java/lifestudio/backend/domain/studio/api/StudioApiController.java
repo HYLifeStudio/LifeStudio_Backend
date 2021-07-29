@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import lifestudio.backend.domain.studio.domain.Tag;
 import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
 
+import lifestudio.backend.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +35,6 @@ public class StudioApiController {
 
 	@PostMapping("/api/studios")
 	public StudioDto.Res createStudio(@RequestBody @Valid StudioDto.createReq dto){
-
 		Address address = Address.builder()
 			.cityDistrict(dto.getCityDistrict())
 			.streetAddress(dto.getStreetAddress())

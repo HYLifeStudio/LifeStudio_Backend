@@ -53,14 +53,9 @@ public class PhotoRepository {
 			.getResultList();
 	}
 
-	public List<Photo> findByTagsAndStudioType(StudioType studioType, Color color, Background background, Boolean itemExist) {
-		return em.createQuery("select p from Photo p where p.studio.studioType = :studioType "
-			+ "and p.studio.tag.color = :color and p.studio.tag.background = :background "
-			+ "and p.studio.tag.itemExist = : itemExist", Photo.class)
+	public List<Photo> findByStudioType(StudioType studioType) {
+		return em.createQuery("select p from Photo p where p.studio.studioType = :studioType ", Photo.class)
 			.setParameter("studioType", studioType)
-			.setParameter("color", color)
-			.setParameter("background", background)
-			.setParameter("itemExist", itemExist)
 			.getResultList();
 	}
 }

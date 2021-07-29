@@ -65,21 +65,16 @@ public class ReviewApiController {
 	}
 
 	@GetMapping("/api/reviews")
-	public List<ReviewDto.Res> getReviews(@RequestParam(required = false) Long studioId) {
+	public List<ReviewDto.Res> getReviews() {
 
-		List<Review> findReviews;
-
-		if ( studioId == null ){
-			findReviews = reviewService.findAll();
-		} else {
-			findReviews = reviewService.findByStudioId(studioId);
-		}
+		List<Review> findReviews = reviewService.findAll();
 
 		List<ReviewDto.Res> collect = findReviews.stream()
 			.map(r -> new ReviewDto.Res(r))
 			.collect(Collectors.toList());
 		return collect;
 	}
+
 
 	@DeleteMapping("/api/reviews/{id}")
 	public ReviewDto.Res deleteReview(@PathVariable final long id) {

@@ -42,9 +42,9 @@ public class PhotoService {
 		return photoRepository.findByStudioId(studioId);
 	}
 
-	public List<Photo> findByTagsAndStudioType(String studioType, String color, String background, Boolean itemExist){
+	public List<Photo> findByStudioType(String studioType){
 		return photoRepository
-			.findByTagsAndStudioType(StudioType.valueOf(studioType),Color.valueOf(color),Background.valueOf(background),itemExist);
+			.findByStudioType(StudioType.valueOf(studioType));
 	}
 
 	@Transactional

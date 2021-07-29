@@ -22,7 +22,7 @@ public class UserDto {
 	@Data
 	@AllArgsConstructor
 	@Builder
-	public static class SiginUpReq {
+	public static class SignUpReq {
 
 		private String name;
 
@@ -44,7 +44,18 @@ public class UserDto {
 	@Data
 	@AllArgsConstructor
 	@Builder
-	public static class LoginReq {
+	public static class CreateUserReq {
+
+		private String email;
+
+		private String password;
+
+	}
+
+	@Data
+	@AllArgsConstructor
+	@Builder
+	public static class SignInReq {
 
 		private String email;
 

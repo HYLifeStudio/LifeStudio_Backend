@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,16 +33,11 @@ public class UserApiController {
 	private final UserService userService;
 
 	@PostMapping("/api/users")
-	public UserDto.Res signUpUser(@RequestBody @Valid UserDto.SiginUpReq dto) {
+	public UserDto.Res createUser(@RequestBody @Valid UserDto.CreateUserReq dto) {
 		User user = User.builder()
-			.name(dto.getName())
-			.sex(Sex.valueOf(dto.getSex()))
-			.birth(dto.getBirth())
 			.email(dto.getEmail())
-			.nickName(dto.getNickName())
-			.phone(dto.getPhone())
 			.password(dto.getPassword())
-			.roles(Collections.singletonList("USER"))
+			.roles(Collections.singletonList("ROLE_ADMIN"))
 			.build();
 		Long id = userService.createUser(user);
 		return new UserDto.Res(userService.findById(id));
@@ -59,6 +55,18 @@ public class UserApiController {
 			.map(u -> new UserDto.Res(u))
 			.collect(Collectors.toList());
 		return collect;
+	}
+
+	@GetMapping("/api/users/me")
+	public UserDto.Res getLoggedInUser(Authentication authentication) {
+		if (authentication == null){
+			return null;
+		} else if(authentication.isAuthenticated()){
+			User loginUser = (User)authentication.getPrincipal();
+			return new UserDto.Res(loginUser);
+		} else {
+			return null;
+		}
 	}
 
 	@DeleteMapping("/api/users/{id}")

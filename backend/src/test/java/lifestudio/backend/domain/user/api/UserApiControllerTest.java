@@ -24,11 +24,14 @@ class UserApiControllerTest {
 	@Autowired
 	UserApiController userApiController;
 
+	@Autowired
+	AuthApiController authApiController;
+
 	@Test
 	public void 회원가입(){
 		//given
 
-		UserDto.SiginUpReq dto = UserDto.SiginUpReq.builder()
+		UserDto.SignUpReq dto = UserDto.SignUpReq.builder()
 			.name("윤승권")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
@@ -39,7 +42,7 @@ class UserApiControllerTest {
 			.build();
 
 		//when
-		UserDto.Res userRes = userApiController.signUpUser(dto);
+		UserDto.Res userRes = authApiController.signUp(dto);
 
 		//then
 		assertEquals(dto.getEmail(), userRes.getEmail());
@@ -49,7 +52,7 @@ class UserApiControllerTest {
 	public void 조회및삭제(){
 
 		//given
-		UserDto.SiginUpReq dto1 = UserDto.SiginUpReq.builder()
+		UserDto.SignUpReq dto1 = UserDto.SignUpReq.builder()
 			.name("윤승권")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
@@ -59,7 +62,7 @@ class UserApiControllerTest {
 			.password("1q2w3e4r!")
 			.build();
 
-		UserDto.SiginUpReq dto2 = UserDto.SiginUpReq.builder()
+		UserDto.SignUpReq dto2 = UserDto.SignUpReq.builder()
 			.name("안경록")
 			.sex("MALE")
 			.birth(LocalDate.of(1996,3,22))
@@ -69,8 +72,8 @@ class UserApiControllerTest {
 			.password("1q2w3e4r!!")
 			.build();
 
-		UserDto.Res user1Res = userApiController.signUpUser(dto1);
-		UserDto.Res user2Res = userApiController.signUpUser(dto2);
+		UserDto.Res user1Res = authApiController.signUp(dto1);
+		UserDto.Res user2Res = authApiController.signUp(dto2);
 
 		//when
 		UserDto.Res findUser1Res = userApiController.getUser(user1Res.getId());
