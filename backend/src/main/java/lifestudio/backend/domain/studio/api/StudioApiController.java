@@ -25,6 +25,8 @@ import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
 
 import lifestudio.backend.domain.user.domain.User;
+import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -32,9 +34,10 @@ import lombok.RequiredArgsConstructor;
 public class StudioApiController {
 
 	private final StudioService studioService;
+	private final ResponseService responseService;
 
 	@PostMapping("/api/studios")
-	public StudioDto.Res createStudio(@RequestBody @Valid StudioDto.createReq dto){
+	public CommonResult createStudio(@RequestBody @Valid StudioDto.createReq dto){
 		Address address = Address.builder()
 			.cityDistrict(dto.getCityDistrict())
 			.streetAddress(dto.getStreetAddress())
@@ -66,16 +69,16 @@ public class StudioApiController {
 			.build();
 
 		Long id = studioService.createStudio(studio);
-		return new StudioDto.Res(studioService.findById(id));
+		return responseService.getSingleResult(new StudioDto.Res(studioService.findById(id)));
 	}
 
 	@GetMapping("/api/studios/{id}")
-	public StudioDto.Res getStudio(@PathVariable final long id) {
-		return new StudioDto.Res(studioService.findById(id));
+	public CommonResult getStudio(@PathVariable final long id) {
+		return responseService.getSingleResult(new StudioDto.Res(studioService.findById(id)));
 	}
 
 	@GetMapping("/api/studios")
-	public List<StudioDto.summaryRes> getStudios(@RequestParam(required = false) String type,
+	public CommonResult getStudios(@RequestParam(required = false) String type,
 		@RequestParam(required = false) String cityDistrict) {
 
 		List<Studio> findStudios;
@@ -89,14 +92,14 @@ public class StudioApiController {
 		List<StudioDto.summaryRes> collect = findStudios.stream()
 			.map(s -> new StudioDto.summaryRes(s))
 			.collect(Collectors.toList());
-		return collect;
+		return responseService.getListResult(collect);
 	}
 
 	@DeleteMapping("/api/studios/{id}")
-	public StudioDto.Res deleteStudio(@PathVariable final long id) {
+	public CommonResult deleteStudio(@PathVariable final long id) {
 		Studio studio = studioService.findById(id);
 		studioService.deleteById(id);
-		return new StudioDto.Res(studio);
+		return responseService.getSuccessResult();
 	}
 
 }

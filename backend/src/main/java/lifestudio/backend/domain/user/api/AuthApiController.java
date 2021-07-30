@@ -18,6 +18,9 @@ import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.dto.UserDto;
 import lifestudio.backend.domain.user.service.UserService;
 import lifestudio.backend.global.common.dto.AuthDto;
+import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.result.SingleResult;
+import lifestudio.backend.global.common.service.ResponseService;
 import lifestudio.backend.global.config.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
@@ -28,20 +31,21 @@ public class AuthApiController {
 	private final UserService userService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
+	private final ResponseService responseService;
 
 
 	@PostMapping("api/auth/signin")
-	public AuthDto.JwtAuthenticationRes signIn(@Valid @RequestBody UserDto.SignInReq Req) {
+	public CommonResult signIn(@Valid @RequestBody UserDto.SignInReq Req) {
 		User user = userService.findByEmail(Req.getEmail()).orElseThrow(RuntimeException::new);
 		if (!passwordEncoder.matches(Req.getPassword(),user.getPassword())){
 			throw new RuntimeException();
 		}
 		String jwt = jwtTokenProvider.createToken(String.valueOf(user.getId()),user.getRoles());
-		return new AuthDto.JwtAuthenticationRes(jwt);
+		return responseService.getSingleResult(new AuthDto.JwtAuthenticationRes(jwt));
 	}
 
 	@PostMapping("/api/auth/signup")
-	public UserDto.Res signUp(@RequestBody @Valid UserDto.SignUpReq dto) {
+	public CommonResult signUp(@RequestBody @Valid UserDto.SignUpReq dto) {
 		User user = User.builder()
 			.name(dto.getName())
 			.sex(Sex.valueOf(dto.getSex()))
@@ -53,7 +57,7 @@ public class AuthApiController {
 			.roles(Collections.singletonList("ROLE_USER"))
 			.build();
 		Long id = userService.createUser(user);
-		return new UserDto.Res(userService.findById(id));
+		return responseService.getSingleResult(new UserDto.Res(userService.findById(id)));
 	}
 
 }

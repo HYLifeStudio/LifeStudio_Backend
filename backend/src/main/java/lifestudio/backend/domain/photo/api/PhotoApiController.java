@@ -21,6 +21,8 @@ import lifestudio.backend.domain.photo.dto.PhotoDto;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.service.StudioService;
 
+import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,8 +35,10 @@ public class PhotoApiController {
 
 	private final LikesService likesService;
 
+	private final ResponseService responseService;
+
 	@PostMapping("/api/photos")
-	public PhotoDto.Res createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
+	public CommonResult createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
 
 		Studio studio = studioService.findById(dto.getStudioId());
 
@@ -47,17 +51,17 @@ public class PhotoApiController {
 			.build();
 
 		Long id = photoService.createPhoto(photo);
-		return new PhotoDto.Res(photoService.findById(id));
+		return responseService.getSingleResult(new PhotoDto.Res(photoService.findById(id)));
 
 	}
 
 	@GetMapping("/api/photos/{id}")
-	public PhotoDto.Res getPhoto(@PathVariable final long id) {
-		return new PhotoDto.Res(photoService.findById(id));
+	public CommonResult getPhoto(@PathVariable final long id) {
+		return responseService.getSingleResult(new PhotoDto.Res(photoService.findById(id)));
 	}
 
 	@GetMapping("api/photos")
-	public List<PhotoDto.Res> getPhotos(@RequestParam(required = false) String studioType){
+	public CommonResult getPhotos(@RequestParam(required = false) String studioType){
 
 		List<Photo> collect;
 
@@ -71,13 +75,13 @@ public class PhotoApiController {
 			.map(p -> new PhotoDto.Res(p))
 			.collect(Collectors.toList());
 
-		return ResCollect;
+		return responseService.getListResult(ResCollect);
 	}
 
 	@DeleteMapping("/api/photos/{id}")
-	public PhotoDto.Res deletePhoto(@PathVariable final long id) {
+	public CommonResult deletePhoto(@PathVariable final long id) {
 		Photo photo = photoService.findById(id);
 		photoService.deleteById(id);
-		return new PhotoDto.Res(photo);
+		return responseService.getSuccessResult();
 	}
 }

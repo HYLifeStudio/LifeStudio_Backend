@@ -21,6 +21,9 @@ import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.dto.UserDto;
 import lifestudio.backend.domain.user.dto.UserDto.Res;
 import lifestudio.backend.domain.user.service.UserService;
+import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.result.SingleResult;
+import lifestudio.backend.global.common.service.ResponseService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -31,49 +34,50 @@ import lombok.RequiredArgsConstructor;
 public class UserApiController {
 
 	private final UserService userService;
+	private final ResponseService responseService;
 
 	@PostMapping("/api/users")
-	public UserDto.Res createUser(@RequestBody @Valid UserDto.CreateUserReq dto) {
+	public CommonResult createUser(@RequestBody @Valid UserDto.CreateUserReq dto) {
 		User user = User.builder()
 			.email(dto.getEmail())
 			.password(dto.getPassword())
 			.roles(Collections.singletonList("ROLE_ADMIN"))
 			.build();
 		Long id = userService.createUser(user);
-		return new UserDto.Res(userService.findById(id));
+		return responseService.getSingleResult(new UserDto.Res(userService.findById(id)));
 	}
 
 	@GetMapping("/api/users/{id}")
-	public UserDto.Res getUser(@PathVariable final long id) {
-		return new UserDto.Res(userService.findById(id));
+	public CommonResult getUser(@PathVariable final long id) {
+		return responseService.getSingleResult(new UserDto.Res(userService.findById(id)));
 	}
 
 	@GetMapping("/api/users")
-	public List<UserDto.Res> getUsers() {
+	public CommonResult getUsers() {
 		List<User> findUsers = userService.findAll();
 		List<UserDto.Res> collect = findUsers.stream()
 			.map(u -> new UserDto.Res(u))
 			.collect(Collectors.toList());
-		return collect;
+		return responseService.getListResult(collect);
 	}
 
 	@GetMapping("/api/users/me")
-	public UserDto.Res getLoggedInUser(Authentication authentication) {
+	public CommonResult getLoggedInUser(Authentication authentication) {
 		if (authentication == null){
-			return null;
+			return responseService.getFailResult();
 		} else if(authentication.isAuthenticated()){
 			User loginUser = (User)authentication.getPrincipal();
-			return new UserDto.Res(loginUser);
+			return responseService.getSingleResult(new UserDto.Res(loginUser));
 		} else {
-			return null;
+			return responseService.getFailResult();
 		}
 	}
 
 	@DeleteMapping("/api/users/{id}")
-	public UserDto.Res deleteUser(@PathVariable final long id) {
+	public CommonResult deleteUser(@PathVariable final long id) {
 		User user = userService.findById(id);
 		userService.deleteById(id);
-		return new Res(user);
+		return responseService.getSuccessResult();
 	}
 
 

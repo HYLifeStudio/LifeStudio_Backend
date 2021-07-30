@@ -26,6 +26,8 @@ import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
 import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.service.UserService;
+import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.service.ResponseService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +42,10 @@ public class ReviewApiController {
 
 	private final UserService userService;
 
+	private final ResponseService responseService;
+
 	@PostMapping("/api/reviews")
-	public ReviewDto.Res createReview(@RequestBody @Valid ReviewDto.createReq dto){
+	public CommonResult createReview(@RequestBody @Valid ReviewDto.createReq dto){
 
 		Studio studio = studioService.findById(dto.getStudioId());
 		User user = userService.findById(dto.getUserId());
@@ -55,32 +59,32 @@ public class ReviewApiController {
 			.build();
 
 		Long id = reviewService.createReview(review);
-		return new ReviewDto.Res(reviewService.findById(id));
+		return responseService.getSingleResult(new ReviewDto.Res(reviewService.findById(id)));
 
 	}
 
 	@GetMapping("/api/reviews/{id}")
-	public ReviewDto.Res getReview(@PathVariable final long id) {
-		return new ReviewDto.Res(reviewService.findById(id));
+	public CommonResult getReview(@PathVariable final long id) {
+		return responseService.getSingleResult(new ReviewDto.Res(reviewService.findById(id)));
 	}
 
 	@GetMapping("/api/reviews")
-	public List<ReviewDto.Res> getReviews() {
+	public CommonResult getReviews() {
 
 		List<Review> findReviews = reviewService.findAll();
 
 		List<ReviewDto.Res> collect = findReviews.stream()
 			.map(r -> new ReviewDto.Res(r))
 			.collect(Collectors.toList());
-		return collect;
+		return responseService.getListResult(collect);
 	}
 
 
 	@DeleteMapping("/api/reviews/{id}")
-	public ReviewDto.Res deleteReview(@PathVariable final long id) {
+	public CommonResult deleteReview(@PathVariable final long id) {
 		Review review = reviewService.findById(id);
 		reviewService.deleteById(id);
-		return new ReviewDto.Res(review);
+		return responseService.getSuccessResult();
 	}
 
 
