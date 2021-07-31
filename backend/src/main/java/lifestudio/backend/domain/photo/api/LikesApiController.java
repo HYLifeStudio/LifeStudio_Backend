@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lifestudio.backend.domain.photo.domain.Likes;
-import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.photo.dto.LikesDto;
 import lifestudio.backend.domain.photo.service.LikesService;
 import lifestudio.backend.domain.photo.service.PhotoService;
-import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.service.UserService;
-import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.response.Response;
 import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 
@@ -39,29 +37,29 @@ public class LikesApiController {
 	private final ResponseService responseService;
 
 	@PostMapping("/api/likes")
-	public CommonResult createLike(@RequestBody @Valid LikesDto.createReq dto){
+	public Response createLike(@RequestBody @Valid LikesDto.createReq dto){
 		Likes like = Likes.builder()
 			.user(userService.findById(dto.getUserId()))
 			.photo(photoService.findById(dto.getPhotoId()))
 			.isLiked(true)
 			.build();
 		Long likeId = likesService.createLikes(like);
-		return responseService.getSingleResult(new LikesDto.Res(likesService.findById(likeId)));
+		return responseService.getSingleResponse(new LikesDto.Res(likesService.findById(likeId)));
 	}
 
 	@PutMapping("api/likes/{id}")
-	public CommonResult updateLike(@PathVariable final long id) {
+	public Response updateLike(@PathVariable final long id) {
 		Long updateId = likesService.updateLikes(id);
-		return responseService.getSingleResult(new LikesDto.Res(likesService.findById(updateId)));
+		return responseService.getSingleResponse(new LikesDto.Res(likesService.findById(updateId)));
 	}
 
 	@GetMapping("/api/likes/{id}")
-	public CommonResult getLike(@PathVariable final long id) {
-		return responseService.getSingleResult(new LikesDto.Res(likesService.findById(id)));
+	public Response getLike(@PathVariable final long id) {
+		return responseService.getSingleResponse(new LikesDto.Res(likesService.findById(id)));
 	}
 
 	@GetMapping("/api/likes")
-	public CommonResult getLikes(@RequestParam(required = false) Long userId,
+	public Response getLikes(@RequestParam(required = false) Long userId,
 		@RequestParam(required = false) Long photoId) {
 		List<Likes> findLikes;
 		if (userId == null && photoId == null) {
@@ -73,13 +71,13 @@ public class LikesApiController {
 		List<LikesDto.Res> collect = findLikes.stream()
 			.map(l -> new LikesDto.Res(l))
 			.collect(Collectors.toList());
-		return responseService.getListResult(collect);
+		return responseService.getListResponse(collect);
 	}
 
 	@DeleteMapping("/api/likes/{id}")
-	public CommonResult deleteLike(@PathVariable final long id) {
+	public Response deleteLike(@PathVariable final long id) {
 		Likes like = likesService.findById(id);
 		likesService.deleteById(id);
-		return responseService.getSuccessResult();
+		return responseService.getSuccessResponse();
 	}
 }

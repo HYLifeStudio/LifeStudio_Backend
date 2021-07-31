@@ -21,7 +21,7 @@ import lifestudio.backend.domain.photo.dto.PhotoDto;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.service.StudioService;
 
-import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.response.Response;
 import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +38,7 @@ public class PhotoApiController {
 	private final ResponseService responseService;
 
 	@PostMapping("/api/photos")
-	public CommonResult createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
+	public Response createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
 
 		Studio studio = studioService.findById(dto.getStudioId());
 
@@ -51,17 +51,17 @@ public class PhotoApiController {
 			.build();
 
 		Long id = photoService.createPhoto(photo);
-		return responseService.getSingleResult(new PhotoDto.Res(photoService.findById(id)));
+		return responseService.getSingleResponse(new PhotoDto.Res(photoService.findById(id)));
 
 	}
 
 	@GetMapping("/api/photos/{id}")
-	public CommonResult getPhoto(@PathVariable final long id) {
-		return responseService.getSingleResult(new PhotoDto.Res(photoService.findById(id)));
+	public Response getPhoto(@PathVariable final long id) {
+		return responseService.getSingleResponse(new PhotoDto.Res(photoService.findById(id)));
 	}
 
 	@GetMapping("api/photos")
-	public CommonResult getPhotos(@RequestParam(required = false) String studioType){
+	public Response getPhotos(@RequestParam(required = false) String studioType){
 
 		List<Photo> collect;
 
@@ -75,13 +75,13 @@ public class PhotoApiController {
 			.map(p -> new PhotoDto.Res(p))
 			.collect(Collectors.toList());
 
-		return responseService.getListResult(ResCollect);
+		return responseService.getListResponse(ResCollect);
 	}
 
 	@DeleteMapping("/api/photos/{id}")
-	public CommonResult deletePhoto(@PathVariable final long id) {
+	public Response deletePhoto(@PathVariable final long id) {
 		Photo photo = photoService.findById(id);
 		photoService.deleteById(id);
-		return responseService.getSuccessResult();
+		return responseService.getSuccessResponse();
 	}
 }

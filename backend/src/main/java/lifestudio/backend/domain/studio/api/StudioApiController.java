@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +23,7 @@ import lifestudio.backend.domain.studio.domain.Tag;
 import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
 
-import lifestudio.backend.domain.user.domain.User;
-import lifestudio.backend.global.common.result.CommonResult;
+import lifestudio.backend.global.common.response.Response;
 import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +35,7 @@ public class StudioApiController {
 	private final ResponseService responseService;
 
 	@PostMapping("/api/studios")
-	public CommonResult createStudio(@RequestBody @Valid StudioDto.createReq dto){
+	public Response createStudio(@RequestBody @Valid StudioDto.createReq dto){
 		Address address = Address.builder()
 			.cityDistrict(dto.getCityDistrict())
 			.streetAddress(dto.getStreetAddress())
@@ -69,16 +67,16 @@ public class StudioApiController {
 			.build();
 
 		Long id = studioService.createStudio(studio);
-		return responseService.getSingleResult(new StudioDto.Res(studioService.findById(id)));
+		return responseService.getSingleResponse(new StudioDto.Res(studioService.findById(id)));
 	}
 
 	@GetMapping("/api/studios/{id}")
-	public CommonResult getStudio(@PathVariable final long id) {
-		return responseService.getSingleResult(new StudioDto.Res(studioService.findById(id)));
+	public Response getStudio(@PathVariable final long id) {
+		return responseService.getSingleResponse(new StudioDto.Res(studioService.findById(id)));
 	}
 
 	@GetMapping("/api/studios")
-	public CommonResult getStudios(@RequestParam(required = false) String type,
+	public Response getStudios(@RequestParam(required = false) String type,
 		@RequestParam(required = false) String cityDistrict) {
 
 		List<Studio> findStudios;
@@ -92,14 +90,14 @@ public class StudioApiController {
 		List<StudioDto.summaryRes> collect = findStudios.stream()
 			.map(s -> new StudioDto.summaryRes(s))
 			.collect(Collectors.toList());
-		return responseService.getListResult(collect);
+		return responseService.getListResponse(collect);
 	}
 
 	@DeleteMapping("/api/studios/{id}")
-	public CommonResult deleteStudio(@PathVariable final long id) {
+	public Response deleteStudio(@PathVariable final long id) {
 		Studio studio = studioService.findById(id);
 		studioService.deleteById(id);
-		return responseService.getSuccessResult();
+		return responseService.getSuccessResponse();
 	}
 
 }

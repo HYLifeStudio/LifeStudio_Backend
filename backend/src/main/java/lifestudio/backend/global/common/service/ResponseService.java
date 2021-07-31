@@ -4,11 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import lifestudio.backend.global.common.result.CommonResult;
-import lifestudio.backend.global.common.result.ListResult;
-import lifestudio.backend.global.common.result.SingleResult;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lifestudio.backend.global.error.ErrorResponse;
+import lifestudio.backend.global.common.response.ListResponse;
+import lifestudio.backend.global.common.response.Response;
+import lifestudio.backend.global.common.response.SingleResponse;
 
 @Service
 public class ResponseService {
@@ -18,11 +17,11 @@ public class ResponseService {
 		FAIL(-1, "실패했습니다");
 
 		int code;
-		String msg;
+		String message;
 
-		CommonResponse(int code, String msg) {
+		CommonResponse(int code, String messageg) {
 			this.code = code;
-			this.msg = msg;
+			this.message = message;
 		}
 
 		public int getCode() {
@@ -30,41 +29,33 @@ public class ResponseService {
 		}
 
 		public String getMsg() {
-			return msg;
+			return message;
 		}
 	}
 
-	public <T> SingleResult<T> getSingleResult(T data){
-		SingleResult<T> result = new SingleResult<>();
+	public <T> SingleResponse<T> getSingleResponse(T data){
+		SingleResponse<T> result = new SingleResponse<>();
 		result.setData(data);
-		setSuccessResult(result);
+		setSuccessResponse(result);
 		return result;
 	}
 
-	public <T> ListResult<T> getListResult(List<T> list){
-		ListResult<T> result = new ListResult<>();
+	public <T> ListResponse<T> getListResponse(List<T> list){
+		ListResponse<T> result = new ListResponse<>();
 		result.setList(list);
-		setSuccessResult(result);
+		setSuccessResponse(result);
 		return result;
 	}
 
-	public CommonResult getSuccessResult(){
-		CommonResult result = new CommonResult();
-		setSuccessResult(result);
+	public Response getSuccessResponse(){
+		Response result = new Response();
+		setSuccessResponse(result);
 		return result;
 	}
 
-	public CommonResult getFailResult(){
-		CommonResult result = new CommonResult();
-		result.setSuccess(false);
-		result.setCode(CommonResponse.FAIL.getCode());
-		result.setMsg(CommonResponse.FAIL.getMsg());
-		return result;
-	}
-
-	private void setSuccessResult(CommonResult result) {
+	private void setSuccessResponse(Response result) {
 		result.setSuccess(true);
 		result.setCode(CommonResponse.SUCCESS.getCode());
-		result.setMsg(CommonResponse.SUCCESS.getMsg());
+		result.setMessage(CommonResponse.SUCCESS.getMsg());
 	}
 }

@@ -1,4 +1,4 @@
-package lifestudio.backend.global.common.dto;
+package lifestudio.backend.domain.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
