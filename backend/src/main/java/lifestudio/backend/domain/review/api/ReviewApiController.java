@@ -41,7 +41,6 @@ public class ReviewApiController {
 
 		Studio studio = studioService.findById(dto.getStudioId());
 		User user = userService.findById(dto.getUserId());
-
 		Review review = Review.builder()
 			.studio(studio)
 			.user(user)

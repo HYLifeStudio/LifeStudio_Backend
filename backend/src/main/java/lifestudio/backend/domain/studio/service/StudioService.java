@@ -1,12 +1,14 @@
 package lifestudio.backend.domain.studio.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.domain.StudioType;
+import lifestudio.backend.domain.studio.exception.StudioNotFoundException;
 import lifestudio.backend.domain.studio.repository.StudioRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +26,12 @@ public class StudioService {
 	}
 
 	public Studio findById(Long studioId){
-		return studioRepository.findById(studioId).get();
+		Optional<Studio> findStudio = studioRepository.findById(studioId);
+		if (findStudio.isEmpty()){
+			throw new StudioNotFoundException(studioId);
+		} else {
+			return findStudio.get();
+		}
 	}
 
 	public List<Studio> findAll(){

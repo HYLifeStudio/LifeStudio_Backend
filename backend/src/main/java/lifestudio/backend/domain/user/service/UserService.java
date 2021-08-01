@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lifestudio.backend.domain.user.domain.User;
+import lifestudio.backend.domain.user.exception.EmailDuplicateException;
+import lifestudio.backend.domain.user.exception.UserNotFoundException;
 import lifestudio.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -25,13 +27,24 @@ public class UserService {
 	public Long createUser(User user) {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
-		userRepository.save(user);
+		Boolean existUser = userRepository.findByEmail(user.getEmail()).isPresent();
+		if (existUser){
+			throw new EmailDuplicateException(user.getEmail());
+		} else {
+			userRepository.save(user);
+		}
+
 		return user.getId();
 	}
 
 
 	public User findById(Long userId) {
-		return userRepository.findById(userId).get();
+		Optional<User> findUser = userRepository.findById(userId);
+		if (findUser.isPresent()){
+			return findUser.get();
+		} else {
+			throw new UserNotFoundException(userId);
+		}
 	}
 
 	public List<User> findAll(){
@@ -39,12 +52,22 @@ public class UserService {
 	}
 
 	public Long deleteById(Long userId) {
-		userRepository.deleteById(userId);
-		return userId;
+		Optional<User> findUser = userRepository.findById(userId);
+		if (findUser.isPresent()){
+			userRepository.deleteById(userId);
+			return userId;
+		} else {
+			throw new UserNotFoundException(userId);
+		}
 	}
 
-	public Optional<User> findByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public User findByEmail(String email) {
+		Optional<User> findUser = userRepository.findByEmail(email);
+		if (findUser.isPresent()){
+			return findUser.get();
+		} else {
+			throw new UserNotFoundException(email);
+		}
 	}
 
 }

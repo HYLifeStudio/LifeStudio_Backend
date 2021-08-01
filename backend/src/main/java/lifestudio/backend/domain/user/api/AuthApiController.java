@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.dto.UserDto;
+import lifestudio.backend.domain.user.exception.LoginInputInvalidException;
+import lifestudio.backend.domain.user.exception.UserNotFoundException;
 import lifestudio.backend.domain.user.service.UserService;
 import lifestudio.backend.domain.user.dto.AuthDto;
 import lifestudio.backend.global.common.response.Response;
@@ -31,12 +33,16 @@ public class AuthApiController {
 
 	@PostMapping("api/auth/signin")
 	public Response signIn(@Valid @RequestBody UserDto.SignInReq Req) {
-		User user = userService.findByEmail(Req.getEmail()).orElseThrow(RuntimeException::new);
-		if (!passwordEncoder.matches(Req.getPassword(),user.getPassword())){
-			throw new RuntimeException();
+		try {
+			User user = userService.findByEmail(Req.getEmail());
+			if (!passwordEncoder.matches(Req.getPassword(),user.getPassword())){
+				throw new LoginInputInvalidException(Req.getEmail());
+			}
+			String jwt = jwtTokenProvider.createToken(String.valueOf(user.getId()),user.getRoles());
+			return responseService.getSingleResponse(new AuthDto.JwtAuthenticationRes(jwt));
+		} catch (UserNotFoundException e){
+			throw new LoginInputInvalidException(Req.getEmail());
 		}
-		String jwt = jwtTokenProvider.createToken(String.valueOf(user.getId()),user.getRoles());
-		return responseService.getSingleResponse(new AuthDto.JwtAuthenticationRes(jwt));
 	}
 
 	@PostMapping("/api/auth/signup")
