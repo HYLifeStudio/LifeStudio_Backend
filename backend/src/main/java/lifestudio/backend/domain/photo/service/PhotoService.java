@@ -8,10 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lifestudio.backend.domain.photo.domain.Likes;
 import lifestudio.backend.domain.photo.domain.Photo;
+import lifestudio.backend.domain.photo.exception.PhotoNotFoundException;
 import lifestudio.backend.domain.photo.repository.LikesRepository;
 import lifestudio.backend.domain.photo.repository.PhotoRepository;
-import lifestudio.backend.domain.studio.domain.Background;
-import lifestudio.backend.domain.studio.domain.Color;
 import lifestudio.backend.domain.studio.domain.StudioType;
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +30,12 @@ public class PhotoService {
 	}
 
 	public Photo findById(Long photoId){
-		return photoRepository.findById(photoId).get();
+		Optional<Photo> findPhoto = photoRepository.findById(photoId);
+		if (findPhoto.isEmpty()){
+			throw new PhotoNotFoundException(photoId);
+		} else {
+			return findPhoto.get();
+		}
 	}
 
 	public List<Photo> findAll(){

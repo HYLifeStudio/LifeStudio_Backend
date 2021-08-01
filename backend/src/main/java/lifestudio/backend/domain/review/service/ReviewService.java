@@ -1,11 +1,13 @@
 package lifestudio.backend.domain.review.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lifestudio.backend.domain.review.domain.Review;
+import lifestudio.backend.domain.review.exception.ReviewNotFoundException;
 import lifestudio.backend.domain.review.repository.ReviewRepository;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,12 @@ public class ReviewService {
 	}
 
 	public Review findById(Long reviewId){
-		return reviewRepository.findById(reviewId).get();
+		Optional<Review> findReview = reviewRepository.findById(reviewId);
+		if (findReview.isEmpty()){
+			throw new ReviewNotFoundException(reviewId);
+		} else {
+			return findReview.get();
+		}
 	}
 
 	public List<Review> findAll(){

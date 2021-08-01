@@ -42,11 +42,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 			.authorizeRequests()// 요청에 대한 사용권한 체크
-				.antMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
-				.antMatchers(HttpMethod.GET,"/api/users/**","/api/photos/**","/api/studios/**").permitAll()
-				.antMatchers(HttpMethod.PUT,"/api/users/**","/api/photos/**","/api/studios/**").hasRole("USER")
-				.antMatchers("/api/reviews/**", "/api/likes/**").hasRole("USER")
-				.anyRequest().hasRole("ADMIN") // 그외 나머지 요청은 관리자만 가능
+				// .antMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+				// .antMatchers(HttpMethod.GET,"/api/users/**","/api/photos/**","/api/studios/**").permitAll()
+				// .antMatchers(HttpMethod.PUT,"/api/users/**","/api/photos/**","/api/studios/**").hasRole("USER")
+				// .antMatchers("/api/reviews/**", "/api/likes/**").hasRole("USER")
+				// .anyRequest().hasRole("ADMIN") // 그외 나머지 요청은 관리자만 가능
+				.anyRequest().permitAll() // 일단 개발용으로 모든 권한 허용~
 				.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
 				UsernamePasswordAuthenticationFilter.class);

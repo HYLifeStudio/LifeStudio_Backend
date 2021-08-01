@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
 
@@ -44,11 +45,15 @@ public class UserRepository {
 	}
 
 	public Optional<User> findByEmail(String email) {
-		User user = em.createQuery("select u from User u where u.email = :email", User.class)
-			.setParameter("email", email)
-			.getSingleResult();
-		return Optional.ofNullable(user);
-	}
+		try {
+			User user = em.createQuery("select u from User u where u.email = :email", User.class)
+				.setParameter("email", email)
+				.getSingleResult();
+			return Optional.ofNullable(user);
+		} catch (NoResultException e){
+			return Optional.ofNullable(null);
+		}
 
+	}
 
 }
