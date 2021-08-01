@@ -1,13 +1,12 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/lifestudio
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://lifestudiodb.crcohu21zbni.us-east-2.rds.amazonaws.com:3306/lifestudio
     username: admin
-    password: admin
-    driver-class-name: org.h2.Driver
-
+    password: lifestudio!
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
