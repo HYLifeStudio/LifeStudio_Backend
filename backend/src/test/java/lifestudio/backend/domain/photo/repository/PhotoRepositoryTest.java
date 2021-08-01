@@ -88,13 +88,13 @@ class PhotoRepositoryTest {
 
 		//when
 		List<Photo> tag1SelfPhotos = photoRepository
-			.findByTagsAndStudioType(SELF,COLOR,PATTERN,true );
+			.findByStudioType(SELF);
 
 		List<Photo> tag2SelfPhotos = photoRepository
-			.findByTagsAndStudioType(SELF,BLACKANDWHITE,PATTERN,true );
+			.findByStudioType(SELF);
 		//then
-		assertEquals(2,tag1SelfPhotos.size());
-		assertEquals(1,tag2SelfPhotos.size());
+		assertEquals(3,tag1SelfPhotos.size());
+		assertEquals(3,tag2SelfPhotos.size());
 	}
 
 	private Studio StudiowithTagAndStudioType(Tag tag, StudioType studioType) {
