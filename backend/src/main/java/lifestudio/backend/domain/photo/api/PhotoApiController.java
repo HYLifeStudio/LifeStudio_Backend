@@ -1,11 +1,13 @@
 package lifestudio.backend.domain.photo.api;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import lifestudio.backend.domain.photo.service.FileService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lifestudio.backend.domain.photo.service.LikesService;
 import lifestudio.backend.domain.photo.service.PhotoService;
 import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.photo.dto.PhotoDto;
@@ -24,6 +25,7 @@ import lifestudio.backend.domain.studio.service.StudioService;
 import lifestudio.backend.global.common.response.Response;
 import lifestudio.backend.global.common.service.ResponseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class PhotoApiController {
 
 	private final StudioService studioService;
 
-	private final LikesService likesService;
+	private final FileService fileService;
 
 	private final ResponseService responseService;
 
@@ -46,7 +48,6 @@ public class PhotoApiController {
 			.studio(studio)
 			.url(dto.getUrl())
 			.title(dto.getTitle())
-			.thumbnailUrl(dto.getThumbnailUrl())
 			.createdAt(LocalDateTime.now())
 			.build();
 
@@ -54,6 +55,14 @@ public class PhotoApiController {
 		return responseService.getSingleResponse(new PhotoDto.Res(photoService.findById(id)));
 
 	}
+
+	@PostMapping("api/upload")
+	public Response upload(@RequestParam("images") MultipartFile multipartFile) throws IOException {
+		return responseService.getSingleResponse(new PhotoDto.uploadRes(fileService.upload(multipartFile, "static")));
+	}
+
+
+
 
 	@GetMapping("/api/photos/{id}")
 	public Response getPhoto(@PathVariable final long id) {

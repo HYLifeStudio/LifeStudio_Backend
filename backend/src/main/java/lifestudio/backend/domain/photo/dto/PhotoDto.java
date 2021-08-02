@@ -25,8 +25,6 @@ public class PhotoDto {
 
 		private String url;
 
-		private String thumbnailUrl;
-
 	}
 
 
@@ -52,6 +50,19 @@ public class PhotoDto {
 			this.url = photo.getUrl();
 			this.createdAt = photo.getCreatedAt();
 			this.updatedAt = photo.getUpdatedAt();
+		}
+	}
+
+	@Data
+	public static class uploadRes {
+
+		private String title;
+
+		private String url;
+
+		public uploadRes(Photo photo){
+			this.title = photo.getTitle();
+			this.url = photo.getUrl();
 		}
 	}
 
