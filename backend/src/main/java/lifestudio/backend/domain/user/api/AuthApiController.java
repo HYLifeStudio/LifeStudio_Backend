@@ -2,12 +2,13 @@ package lifestudio.backend.domain.user.api;
 
 import java.util.Collections;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import lifestudio.backend.domain.user.service.EmailSenderService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
@@ -29,6 +30,7 @@ public class AuthApiController {
 	private final JwtTokenProvider jwtTokenProvider;
 	private final PasswordEncoder passwordEncoder;
 	private final ResponseService responseService;
+	private final EmailSenderService emailSenderService;
 
 
 	@PostMapping("api/auth/signin")
@@ -59,6 +61,22 @@ public class AuthApiController {
 			.build();
 		Long id = userService.createUser(user);
 		return responseService.getSingleResponse(new UserDto.Res(userService.findById(id)));
+	}
+
+	@PostMapping("api/auth/emailsend")
+	public Response emailSend(@RequestParam(name="email") String email, HttpSession session) {
+		emailSenderService.sendEmail(session, email);
+		return responseService.getSuccessResponse();
+	}
+
+	@PostMapping("api/auth/emailverification")
+	public Response emailVerification(HttpSession session,
+			@RequestParam(name="email") String email,
+			@RequestParam(name = "code") int code) {
+		if (emailSenderService.emailCertification(session, email, code)){
+			return responseService.getSuccessResponse();
+		} else
+			return responseService.getFailResponse();
 	}
 
 }

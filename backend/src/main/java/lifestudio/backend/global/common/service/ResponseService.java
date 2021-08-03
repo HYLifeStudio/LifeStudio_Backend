@@ -53,9 +53,22 @@ public class ResponseService {
 		return result;
 	}
 
+	public Response getFailResponse(){
+		Response result = new Response();
+		setFailResponse(result);
+		return result;
+
+	}
+
 	private void setSuccessResponse(Response result) {
 		result.setSuccess(true);
 		result.setCode(CommonResponse.SUCCESS.getCode());
 		result.setMessage(CommonResponse.SUCCESS.getMsg());
+	}
+
+	private void setFailResponse(Response result) {
+		result.setSuccess(false);
+		result.setCode(CommonResponse.FAIL.getCode());
+		result.setMessage(CommonResponse.FAIL.getMsg());
 	}
 }
