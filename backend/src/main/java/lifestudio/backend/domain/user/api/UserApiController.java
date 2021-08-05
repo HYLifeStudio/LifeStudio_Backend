@@ -31,10 +31,11 @@ public class UserApiController {
 	@PostMapping("/api/users")
 	public Response createUser(@RequestBody @Valid UserDto.CreateUserReq dto) {
 		User user = User.builder()
-			.email(dto.getEmail())
-			.password(dto.getPassword())
-			.roles(Collections.singletonList(dto.getRole()))
-			.build();
+				.email(dto.getEmail())
+				.password(dto.getPassword())
+				.roles(Collections.singletonList(dto.getRole()))
+				.phone(dto.getPhone())
+				.build();
 		Long id = userService.createUser(user);
 		return responseService.getSingleResponse(new UserDto.Res(userService.findById(id)));
 	}

@@ -3,6 +3,7 @@ package lifestudio.backend.domain.studio.domain;
 
 import lifestudio.backend.domain.photo.domain.Photo;
 import lifestudio.backend.domain.review.domain.Review;
+import lifestudio.backend.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,6 +58,9 @@ public class Studio {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Photo RepresentativePhoto;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private User masterUSer ;
 
     @Builder.Default
     @OneToMany(mappedBy = "studio")

@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import lifestudio.backend.domain.photo.service.PhotoService;
 import lifestudio.backend.domain.studio.domain.*;
+import lifestudio.backend.domain.user.domain.User;
+import lifestudio.backend.domain.user.service.UserService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class StudioApiController {
 
 	private final StudioService studioService;
+	private final UserService userService;
 	private final ResponseService responseService;
 	private final PhotoService photoService;
 
@@ -64,6 +67,9 @@ public class StudioApiController {
 				.sunday(dto.getSunday())
 				.build();
 
+		User masterUser = dto.getMasterUserId() == null ? null :  userService.findById(dto.getMasterUserId()) ;
+
+
 		Studio studio = Studio.builder()
 				.studioName(dto.getStudioName())
 				.address(address)
@@ -76,6 +82,7 @@ public class StudioApiController {
 				.shopNumber(dto.getShopNumber())
 				.managerName(dto.getManagerName())
 				.registrationNumber(dto.getRegistrationNumber())
+				.masterUSer(masterUser)
 				.build();
 
 		Long id = studioService.createStudio(studio);

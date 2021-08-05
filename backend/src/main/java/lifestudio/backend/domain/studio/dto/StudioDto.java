@@ -13,6 +13,8 @@ import lifestudio.backend.domain.review.dto.ReviewDto;
 import lifestudio.backend.domain.studio.domain.OpeningTime;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.domain.StudioType;
+import lifestudio.backend.domain.user.domain.User;
+import lifestudio.backend.domain.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -79,6 +81,8 @@ public class StudioDto {
 
 		private String managerName;
 
+		private Long masterUserId;
+
 	}
 
 	@Data
@@ -135,6 +139,8 @@ public class StudioDto {
 
 		private PhotoDto.Res representativePhoto;
 
+		private UserDto.Res masterUser;
+
 		private List<PhotoDto.Res> photos = new ArrayList<PhotoDto.Res>();
 
 		private List<ReviewDto.Res> reviews = new ArrayList<ReviewDto.Res>();
@@ -143,6 +149,7 @@ public class StudioDto {
 
 			Photo representativePhoto = studio.getRepresentativePhoto();
 			Photo businessRegistrationPhoto = studio.getBusinessRegistrationPhoto();
+			User masterUser = studio.getMasterUSer();
 
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
@@ -159,6 +166,8 @@ public class StudioDto {
 					new PhotoDto.Res(representativePhoto);
 			this.businessRegistrationPhoto = businessRegistrationPhoto == null ? null :
 					new PhotoDto.Res(businessRegistrationPhoto);
+			this.masterUser = masterUser == null ? null :
+					new UserDto.Res(masterUser);
 			this.photos = Optional.ofNullable(studio.getPhotos())
 				.map(Collection::stream)
 				.orElseGet(Stream::empty)
