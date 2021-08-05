@@ -41,17 +41,7 @@ public class PhotoApiController {
 
 	@PostMapping("/api/photos")
 	public Response createPhoto(@RequestBody @Valid PhotoDto.createReq dto){
-
-		Studio studio = studioService.findById(dto.getStudioId());
-
-		Photo photo = Photo.builder()
-			.studio(studio)
-			.url(dto.getUrl())
-			.title(dto.getTitle())
-			.createdAt(LocalDateTime.now())
-			.build();
-
-		Long id = photoService.createPhoto(photo);
+		Long id = photoService.createPhoto(dto);
 		return responseService.getSingleResponse(new PhotoDto.Res(photoService.findById(id)));
 
 	}

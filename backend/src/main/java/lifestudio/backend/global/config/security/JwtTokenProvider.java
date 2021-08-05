@@ -18,7 +18,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lifestudio.backend.domain.user.domain.RoleType;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

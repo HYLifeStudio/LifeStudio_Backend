@@ -11,9 +11,6 @@ import lifestudio.backend.domain.photo.exception.LikesAlreadyExistException;
 import lifestudio.backend.domain.photo.exception.LikesNotFoundException;
 import lifestudio.backend.domain.photo.repository.LikesRepository;
 import lifestudio.backend.domain.photo.repository.PhotoRepository;
-import lifestudio.backend.domain.studio.domain.Background;
-import lifestudio.backend.domain.studio.domain.Color;
-import lifestudio.backend.domain.studio.domain.StudioType;
 import lifestudio.backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 

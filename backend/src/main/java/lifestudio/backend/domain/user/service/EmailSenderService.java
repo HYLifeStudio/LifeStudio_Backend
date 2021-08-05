@@ -64,11 +64,11 @@ public class EmailSenderService {
         }
     }
 
-    public boolean emailCertification(HttpSession session, String email, int inpuCode){
+    public boolean emailCertification(HttpSession session, String email, int inputCode){
         try {
             int generateCode = (int) session.getAttribute(email);
 
-            if (generateCode == inpuCode){
+            if (generateCode == inputCode){
                 return true;
             } else {
                 return false;

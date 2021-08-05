@@ -10,14 +10,14 @@ public class TagDto {
 
 		private String color;
 
-		private String background;
+		private Boolean background;
 
-		private String itemExist;
+		private Boolean itemExist;
 
 		public Res(Tag tag){
-			this.color = tag.colorRes();
-			this.background = tag.backgroundRes();
-			this.itemExist = tag.itemExistRes();
+			this.color = tag.getColor().toString();
+			this.background = tag.getBackground();
+			this.itemExist = tag.getItemExist();
 		}
 	}
 

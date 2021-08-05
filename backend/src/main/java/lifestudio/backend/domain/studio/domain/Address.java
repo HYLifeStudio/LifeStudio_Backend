@@ -18,7 +18,6 @@ public class Address {
 
     private String cityDistrict;
     private String streetAddress;
-    private String zipCode;
     private String nearBy;
 
     public String summaryAddress(){
@@ -26,6 +25,6 @@ public class Address {
     }
 
     public String detailAddress() {
-        return this.nearBy + " " + this.cityDistrict + " " + this.streetAddress + " " + this.zipCode;
+        return this.nearBy + " " + this.cityDistrict + " " + this.streetAddress ;
     }
 }

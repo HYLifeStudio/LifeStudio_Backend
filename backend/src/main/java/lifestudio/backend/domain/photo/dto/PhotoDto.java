@@ -25,6 +25,8 @@ public class PhotoDto {
 
 		private String url;
 
+		private String type;
+
 	}
 
 
@@ -45,7 +47,7 @@ public class PhotoDto {
 
 		public Res(Photo photo){
 			this.id = photo.getId();
-			this.studioId = photo.getStudio().getId();
+			this.studioId = photo.getStudio() == null ? null : photo.getStudio().getId();
 			this.title = photo.getTitle();
 			this.url = photo.getUrl();
 			this.createdAt = photo.getCreatedAt();

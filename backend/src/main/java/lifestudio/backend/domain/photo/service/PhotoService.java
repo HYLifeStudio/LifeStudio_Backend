@@ -1,8 +1,15 @@
 package lifestudio.backend.domain.photo.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import lifestudio.backend.domain.photo.dto.PhotoDto;
+import lifestudio.backend.domain.studio.domain.Option;
+import lifestudio.backend.domain.studio.domain.Studio;
+import lifestudio.backend.domain.studio.exception.StudioNotFoundException;
+import lifestudio.backend.domain.studio.repository.StudioRepository;
+import lifestudio.backend.domain.studio.service.StudioService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +30,27 @@ public class PhotoService {
 
 	private  final LikesRepository likesRepository;
 
+	private final StudioService studioService;
+
 	@Transactional
-	public Long createPhoto(Photo photo){
-		photoRepository.save(photo);
+	public Long createPhoto(PhotoDto.createReq dto){
+		Studio studio = studioService.findById(dto.getStudioId());
+		Photo photo = Photo.builder()
+				.url(dto.getUrl())
+				.title(dto.getTitle())
+				.createdAt(LocalDateTime.now())
+				.build();
+		if (dto.getType().equals("advertisement")){
+			photo.setStudio(studio);
+			photoRepository.save(photo);
+		} else if (dto.getType().equals("businessRegistration")){
+			photoRepository.save(photo);
+			studio.setBusinessRegistrationPhoto(photo);
+		} else if (dto.getType().equals("representative")){
+			photo.setStudio(studio);
+			photoRepository.save(photo);
+			studio.setRepresentativePhoto(photo);
+		}
 		return photo.getId();
 	}
 

@@ -1,6 +1,5 @@
 package lifestudio.backend.domain.photo.repository;
 
-import static lifestudio.backend.domain.studio.domain.Background.*;
 import static lifestudio.backend.domain.studio.domain.Color.*;
 import static lifestudio.backend.domain.studio.domain.StudioType.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import lifestudio.backend.domain.photo.domain.Photo;
-import lifestudio.backend.domain.studio.domain.Color;
 import lifestudio.backend.domain.studio.domain.Studio;
 import lifestudio.backend.domain.studio.domain.StudioType;
 import lifestudio.backend.domain.studio.domain.Tag;
@@ -68,8 +66,8 @@ class PhotoRepositoryTest {
 	@Test
 	public void 스튜디오유형과태그로사진들찾기() {
 		//given
-		Tag tag1 = new Tag(COLOR,PATTERN,true);
-		Tag tag2 = new Tag(BLACKANDWHITE,PATTERN,true);
+		Tag tag1 = new Tag(COLOR,true,true);
+		Tag tag2 = new Tag(BLACKANDWHITE,true,true);
 
 		Studio selfStudioWithTag1 = StudiowithTagAndStudioType(tag1, SELF);
 		studioRepository.save(selfStudioWithTag1);

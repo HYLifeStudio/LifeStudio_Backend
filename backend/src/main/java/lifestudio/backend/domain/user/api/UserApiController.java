@@ -33,7 +33,7 @@ public class UserApiController {
 		User user = User.builder()
 			.email(dto.getEmail())
 			.password(dto.getPassword())
-			.roles(Collections.singletonList("ROLE_ADMIN"))
+			.roles(Collections.singletonList(dto.getRole()))
 			.build();
 		Long id = userService.createUser(user);
 		return responseService.getSingleResponse(new UserDto.Res(userService.findById(id)));

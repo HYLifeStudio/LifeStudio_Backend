@@ -11,18 +11,22 @@ public class OptionDto {
 	@Data
 	public static class Res {
 
-		private List<String> summaryOptions = new ArrayList<String>();
+		private Integer shootingTime;
 
-		private List<String> detailOptions = new ArrayList<String >();
+		private Integer retouchingTime;
+
+		private Boolean originalProvide;
+
+		private Integer printPhoto;
+
+		private String item;
 
 		public Res(Option option){
-			this.summaryOptions.add(option.itemSummary());
-			this.summaryOptions.add(option.timeSummary());
-			this.summaryOptions.add(option.originalProvideSummary());
-			this.summaryOptions.add(option.printPhotoSummary());
-			this.detailOptions.add(option.timeDetail());
-			this.detailOptions.add(option.provideDetail());
-			this.detailOptions.add(option.itemDetail());
+			this.shootingTime = option.getShootingTime();
+			this.retouchingTime = option.getRetouchingTime();
+			this.originalProvide = option.getOriginalProvide();
+			this.printPhoto = option.getPrintPhoto();
+			this.item = option.getItem();
 		}
 
 	}

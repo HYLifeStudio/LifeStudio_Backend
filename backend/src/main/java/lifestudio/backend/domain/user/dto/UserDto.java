@@ -1,21 +1,15 @@
 package lifestudio.backend.domain.user.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lifestudio.backend.domain.user.domain.RoleType;
 import lifestudio.backend.domain.user.domain.Sex;
 import lifestudio.backend.domain.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 public class UserDto {
 
@@ -47,6 +41,10 @@ public class UserDto {
 	public static class CreateUserReq {
 
 		private String email;
+
+		private String phone;
+
+		private String role;
 
 		private String password;
 

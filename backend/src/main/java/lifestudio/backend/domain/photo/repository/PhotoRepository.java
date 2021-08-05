@@ -8,9 +8,6 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import lifestudio.backend.domain.photo.domain.Photo;
-import lifestudio.backend.domain.review.domain.Review;
-import lifestudio.backend.domain.studio.domain.Background;
-import lifestudio.backend.domain.studio.domain.Color;
 import lifestudio.backend.domain.studio.domain.StudioType;
 import lombok.RequiredArgsConstructor;
 

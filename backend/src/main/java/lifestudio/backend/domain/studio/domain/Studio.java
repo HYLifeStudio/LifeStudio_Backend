@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,19 +29,34 @@ public class Studio {
 
     private String studioName;
 
-    @Enumerated(EnumType.STRING)
-    private StudioType studioType;
-
-    private String bio;
-
     @Embedded
     private Address address;
 
     @Embedded
-    private Option option;
+    private Tag tag;
+
+    @Enumerated(EnumType.STRING)
+    private StudioType studioType;
 
     @Embedded
-    private Tag tag;
+    private OpeningTime openingTime;
+
+    @Embedded
+    private Option option;
+
+    private String bio;
+
+    private String shopNumber;
+
+    private String registrationNumber;
+
+    private String managerName;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Photo BusinessRegistrationPhoto;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Photo RepresentativePhoto;
 
     @Builder.Default
     @OneToMany(mappedBy = "studio")

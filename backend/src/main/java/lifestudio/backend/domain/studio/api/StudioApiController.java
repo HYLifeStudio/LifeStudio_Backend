@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import lifestudio.backend.domain.photo.service.PhotoService;
+import lifestudio.backend.domain.studio.domain.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,13 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lifestudio.backend.domain.studio.domain.Address;
-import lifestudio.backend.domain.studio.domain.Background;
-import lifestudio.backend.domain.studio.domain.Color;
-import lifestudio.backend.domain.studio.domain.Option;
-import lifestudio.backend.domain.studio.domain.Studio;
-import lifestudio.backend.domain.studio.domain.StudioType;
-import lifestudio.backend.domain.studio.domain.Tag;
 import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
 
@@ -33,13 +28,13 @@ public class StudioApiController {
 
 	private final StudioService studioService;
 	private final ResponseService responseService;
+	private final PhotoService photoService;
 
 	@PostMapping("/api/studios")
 	public Response createStudio(@RequestBody @Valid StudioDto.createReq dto){
 		Address address = Address.builder()
 			.cityDistrict(dto.getCityDistrict())
 			.streetAddress(dto.getStreetAddress())
-			.zipCode(dto.getZipCode())
 			.nearBy(dto.getNearBy())
 			.build();
 
@@ -53,18 +48,35 @@ public class StudioApiController {
 
 		Tag tag = Tag.builder()
 			.color(Color.valueOf(dto.getColor()))
-			.background(Background.valueOf(dto.getBackground()))
+			.background(dto.getBackground())
 			.itemExist(dto.getItemExist())
 			.build();
 
+		OpeningTime openingTime = OpeningTime.builder()
+				.openTime(dto.getOpenTime())
+				.closeTime(dto.getCloseTime())
+				.monday(dto.getMonday())
+				.tuesday(dto.getTuesday())
+				.wednesday(dto.getWednesday())
+				.thursday(dto.getThursday())
+				.friday(dto.getFriday())
+				.saturday(dto.getSaturday())
+				.sunday(dto.getSunday())
+				.build();
+
 		Studio studio = Studio.builder()
-			.studioName(dto.getStudioName())
-			.studioType(StudioType.valueOf(dto.getStudioType()))
-			.bio(dto.getBio())
-			.address(address)
-			.option(option)
-			.tag(tag)
-			.build();
+				.studioName(dto.getStudioName())
+				.address(address)
+				.studioType(StudioType.valueOf(dto.getStudioType()))
+				.tag(tag)
+				.openingTime(openingTime)
+				.option(option)
+				.bio(dto.getBio())
+				.option(option)
+				.shopNumber(dto.getShopNumber())
+				.managerName(dto.getManagerName())
+				.registrationNumber(dto.getRegistrationNumber())
+				.build();
 
 		Long id = studioService.createStudio(studio);
 		return responseService.getSingleResponse(new StudioDto.Res(studioService.findById(id)));
