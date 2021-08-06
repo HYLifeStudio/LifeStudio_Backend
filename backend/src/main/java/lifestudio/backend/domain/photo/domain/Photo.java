@@ -30,6 +30,8 @@ public class Photo {
     @JoinColumn(name = "studio_id")
     private Studio studio;
 
+    private String type;
+
     private String title;
 
     private String url;

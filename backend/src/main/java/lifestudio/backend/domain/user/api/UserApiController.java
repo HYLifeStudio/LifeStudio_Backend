@@ -7,12 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lifestudio.backend.domain.user.domain.User;
 import lifestudio.backend.domain.user.dto.UserDto;
@@ -38,6 +33,12 @@ public class UserApiController {
 				.build();
 		Long id = userService.createUser(user);
 		return responseService.getSingleResponse(new UserDto.Res(userService.findById(id)));
+	}
+
+	@PutMapping("/api/users/{id}")
+	public Response updateUser(@PathVariable final Long id, @RequestBody @Valid UserDto.UpdateUserReq dto){
+		Long updateUserId = userService.updateUser(id,dto);
+		return responseService.getSingleResponse(new UserDto.Res(userService.findById(updateUserId)));
 	}
 
 	@GetMapping("/api/users/{id}")

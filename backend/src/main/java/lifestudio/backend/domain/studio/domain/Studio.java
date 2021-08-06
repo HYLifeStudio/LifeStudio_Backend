@@ -56,7 +56,7 @@ public class Studio {
     @OneToOne(fetch = FetchType.LAZY)
     private Photo BusinessRegistrationPhoto;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Photo RepresentativePhoto;
 
     @OneToOne(fetch = FetchType.LAZY)

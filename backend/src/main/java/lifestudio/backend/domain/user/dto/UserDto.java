@@ -53,6 +53,26 @@ public class UserDto {
 	@Data
 	@AllArgsConstructor
 	@Builder
+	public static class UpdateUserReq {
+
+		private String name;
+
+		private String sex;
+
+		@DateTimeFormat(pattern ="yyyy-MM-dd")
+		private LocalDate birth;
+
+		private String nickName;
+
+		private String phone;
+
+		private String password;
+
+	}
+
+	@Data
+	@AllArgsConstructor
+	@Builder
 	public static class SignInReq {
 
 		private String email;

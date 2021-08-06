@@ -3,6 +3,8 @@ package lifestudio.backend.domain.user.service;
 import java.util.List;
 import java.util.Optional;
 
+import lifestudio.backend.domain.user.domain.Sex;
+import lifestudio.backend.domain.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,22 @@ public class UserService {
 		return user.getId();
 	}
 
+	@Transactional
+	public Long updateUser(Long userId, UserDto.UpdateUserReq dto){
+		String encodedPassword = passwordEncoder.encode(dto.getPassword());
+		User updateUser = findById(userId);
+		updateUser.setName(dto.getName());
+		updateUser.setSex(Sex.valueOf(dto.getSex()));
+		updateUser.setBirth(dto.getBirth());
+		updateUser.setNickName(dto.getNickName());
+		updateUser.setPhone(dto.getPhone());
+		updateUser.setPassword(encodedPassword);
+		return updateUser.getId();
+	}
+
 
 	public User findById(Long userId) {
+
 		Optional<User> findUser = userRepository.findById(userId);
 		if (findUser.isPresent()){
 			return findUser.get();

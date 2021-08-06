@@ -38,6 +38,7 @@ public class PhotoService {
 		Photo photo = Photo.builder()
 				.url(dto.getUrl())
 				.title(dto.getTitle())
+				.type(dto.getType())
 				.createdAt(LocalDateTime.now())
 				.build();
 		if (dto.getType().equals("advertisement")){
@@ -78,6 +79,16 @@ public class PhotoService {
 
 	@Transactional
 	public Long deleteById(Long photoId){
+		Photo deletePhoto = findById(photoId);
+		Studio updateStudio = studioService.findById(deletePhoto.getStudio().getId());
+
+		if (deletePhoto.getType() == "representative"){
+			updateStudio.setRepresentativePhoto(null);
+		}
+
+		updateStudio.getPhotos().remove(deletePhoto);
+		deletePhoto.setStudio(null);
+
 		photoRepository.deleteById(photoId);
 		return photoId;
 	}

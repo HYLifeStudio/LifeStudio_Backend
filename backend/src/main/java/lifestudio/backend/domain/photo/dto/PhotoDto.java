@@ -39,6 +39,8 @@ public class PhotoDto {
 
 		private String title;
 
+		private String type;
+
 		private String url;
 
 		private LocalDateTime createdAt;
@@ -49,6 +51,7 @@ public class PhotoDto {
 			this.id = photo.getId();
 			this.studioId = photo.getStudio() == null ? null : photo.getStudio().getId();
 			this.title = photo.getTitle();
+			this.type = photo.getType();
 			this.url = photo.getUrl();
 			this.createdAt = photo.getCreatedAt();
 			this.updatedAt = photo.getUpdatedAt();

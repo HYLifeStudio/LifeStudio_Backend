@@ -86,6 +86,59 @@ public class StudioDto {
 	}
 
 	@Data
+	@AllArgsConstructor
+	@Builder
+	public static class updateReq{
+
+		private String studioName;
+
+		private String cityDistrict;
+
+		private String streetAddress;
+
+		private String nearBy;
+
+		private String studioType;
+
+		private String color;
+
+		private Boolean background;
+
+		private Boolean monday;
+
+		private Boolean tuesday;
+
+		private Boolean wednesday;
+
+		private Boolean thursday;
+
+		private Boolean friday;
+
+		private Boolean saturday;
+
+		private Boolean sunday;
+
+		private String openTime;
+
+		private String closeTime;
+
+		private Integer shootingTime;
+
+		private Integer retouchingTime;
+
+		private Boolean originalProvide;
+
+		private Integer printPhoto;
+
+		private Boolean itemExist;
+
+		private String item;
+
+		private String bio;
+
+	}
+
+	@Data
 	public static class summaryRes {
 
 		private Long id;

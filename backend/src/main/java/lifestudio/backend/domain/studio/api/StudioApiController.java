@@ -8,14 +8,9 @@ import javax.validation.Valid;
 import lifestudio.backend.domain.photo.service.PhotoService;
 import lifestudio.backend.domain.studio.domain.*;
 import lifestudio.backend.domain.user.domain.User;
+import lifestudio.backend.domain.user.dto.UserDto;
 import lifestudio.backend.domain.user.service.UserService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lifestudio.backend.domain.studio.dto.StudioDto;
 import lifestudio.backend.domain.studio.service.StudioService;
@@ -87,6 +82,12 @@ public class StudioApiController {
 
 		Long id = studioService.createStudio(studio);
 		return responseService.getSingleResponse(new StudioDto.Res(studioService.findById(id)));
+	}
+
+	@PutMapping("/api/studios/{id}")
+	public Response updateStudio(@PathVariable final Long id, @RequestBody @Valid StudioDto.updateReq dto){
+		Long updateUserId = studioService.updateStudio(id,dto);
+		return responseService.getSingleResponse(new StudioDto.Res(studioService.findById(updateUserId)));
 	}
 
 	@GetMapping("/api/studios/{id}")
