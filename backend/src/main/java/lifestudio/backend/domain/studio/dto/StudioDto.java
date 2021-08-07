@@ -154,11 +154,15 @@ public class StudioDto {
 		private Integer ratingAverage;
 
 		public summaryRes(Studio studio) {
+
+			Photo representativePhoto = studio.getRepresentativePhoto();
+
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
 			this.address = new AddressDto.Res(studio.getAddress());
 			this.options = new OptionDto.Res(studio.getOption());
-			this.representativePhoto = new PhotoDto.Res(studio.getRepresentativePhoto());
+			this.representativePhoto = representativePhoto == null ? null :
+					new PhotoDto.Res(representativePhoto);
 			this.ratingAverage = studio.getReviewRatingAverage();
 		}
 	}
