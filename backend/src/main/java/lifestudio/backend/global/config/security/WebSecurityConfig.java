@@ -12,6 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-				.cors().and()
+			.cors().and()
 			.httpBasic().disable() // 기본 설정 해제
 			.sessionManagement() // JWT 인증방식을 사용하기 때문에 세선  해제
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -49,9 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().permitAll() // 일단 개발용으로 모든 권한 허용~
 				.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-				UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(new CorsFilter(), JwtAuthenticationFilter.class);
-
+				UsernamePasswordAuthenticationFilter.class);
 		// JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 	}
 

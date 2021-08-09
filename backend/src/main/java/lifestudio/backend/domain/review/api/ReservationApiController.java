@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ReservationApiController {
 
     private final ReservationService reservationService;

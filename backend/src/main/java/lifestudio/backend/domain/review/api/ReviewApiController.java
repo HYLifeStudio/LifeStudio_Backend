@@ -8,12 +8,7 @@ import javax.validation.Valid;
 
 import lifestudio.backend.domain.review.domain.Reservation;
 import lifestudio.backend.domain.review.service.ReservationService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lifestudio.backend.domain.review.domain.Review;
 import lifestudio.backend.domain.review.dto.ReviewDto;
@@ -28,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ReviewApiController {
 
 	private final ReviewService reviewService;

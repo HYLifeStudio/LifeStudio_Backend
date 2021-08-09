@@ -8,13 +8,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import lifestudio.backend.domain.photo.service.FileService;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lifestudio.backend.domain.photo.service.PhotoService;
 import lifestudio.backend.domain.photo.domain.Photo;
@@ -29,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class PhotoApiController {
 
 	private final PhotoService photoService;
