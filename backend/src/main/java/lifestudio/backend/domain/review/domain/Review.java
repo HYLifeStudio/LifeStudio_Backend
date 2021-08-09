@@ -25,6 +25,9 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Reservation reservation;
+
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "studio_id")
     private Studio studio;

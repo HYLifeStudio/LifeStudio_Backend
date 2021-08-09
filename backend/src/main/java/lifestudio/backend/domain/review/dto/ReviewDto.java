@@ -16,6 +16,8 @@ public class ReviewDto {
 	@Builder
 	public static class createReq{
 
+		private Long reservationId;
+
 		private Long studioId;
 
 		private Long userId;
@@ -31,6 +33,8 @@ public class ReviewDto {
 
 		private Long id;
 
+		private Long reservationId;
+
 		private Long studioId;
 
 		private Long userId;
@@ -45,6 +49,7 @@ public class ReviewDto {
 
 		public Res(Review review){
 			this.id = review.getId();
+			this.reservationId = review.getReservation().getId();
 			this.studioId = review.getStudio().getId();
 			this.userId = review.getUser().getId();
 			this.content = review.getContent();

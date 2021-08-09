@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import lifestudio.backend.domain.review.domain.Reservation;
+import lifestudio.backend.domain.review.service.ReservationService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,8 @@ public class ReviewApiController {
 
 	private final ReviewService reviewService;
 
+	private final ReservationService reservationService;
+
 	private final StudioService studioService;
 
 	private final UserService userService;
@@ -39,15 +43,17 @@ public class ReviewApiController {
 	@PostMapping("/api/reviews")
 	public Response createReview(@RequestBody @Valid ReviewDto.createReq dto){
 
+		Reservation reservation = reservationService.findById(dto.getReservationId());
 		Studio studio = studioService.findById(dto.getStudioId());
 		User user = userService.findById(dto.getUserId());
 		Review review = Review.builder()
-			.studio(studio)
-			.user(user)
-			.content(dto.getContent())
-			.rating(dto.getRating())
-			.createdAt(LocalDateTime.now())
-			.build();
+				.reservation(reservation)
+				.studio(studio)
+				.user(user)
+				.content(dto.getContent())
+				.rating(dto.getRating())
+				.createdAt(LocalDateTime.now())
+				.build();
 
 		Long id = reviewService.createReview(review);
 		return responseService.getSingleResponse(new ReviewDto.Res(reviewService.findById(id)));
