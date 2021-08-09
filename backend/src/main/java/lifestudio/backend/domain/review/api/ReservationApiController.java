@@ -37,7 +37,7 @@ public class ReservationApiController {
         Reservation reservation = Reservation.builder()
                 .studio(studio)
                 .user(user)
-                .resrvationTime(dto.getResrvationTime())
+                .reservationTime(dto.getReservationTime())
                 .color(dto.getColor())
                 .background(dto.getBackground())
                 .people(dto.getPeople())
@@ -56,15 +56,15 @@ public class ReservationApiController {
     }
 
     @GetMapping("/api/reservations")
-    public Response getReservations(@RequestParam(required = false) Long StudioId, @RequestParam(required = false) Long UserId) {
+    public Response getReservations(@RequestParam(required = false) Long studioId, @RequestParam(required = false) Long userId) {
 
         List<Reservation> findReservations;
-        if (StudioId == null & UserId == null) {
+        if (studioId == null & userId == null) {
             findReservations = reservationService.findAll();
-        } else if (StudioId == null){
-            findReservations = reservationService.findByUserId(UserId);
+        } else if (studioId == null){
+            findReservations = reservationService.findByUserId(userId);
         } else {
-            findReservations = reservationService.findByStudioId(StudioId);
+            findReservations = reservationService.findByStudioId(studioId);
         }
 
 
@@ -72,6 +72,12 @@ public class ReservationApiController {
                 .map(r -> new ReservationDto.Res(r))
                 .collect(Collectors.toList());
         return responseService.getListResponse(collect);
+    }
+
+    @PutMapping("api/reservations/{id}")
+    public Response updateReservation(@PathVariable final long id) {
+        reservationService.updateById(id);
+        return responseService.getSingleResponse(new ReservationDto.Res(reservationService.findById(id)));
     }
 
 

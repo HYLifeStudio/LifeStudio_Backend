@@ -32,6 +32,13 @@ public class ReservationService {
         }
     }
 
+    @Transactional
+    public Long updateById(Long reservationId){
+        Reservation updateReservation = findById(reservationId);
+        updateReservation.changeApprove();
+        return updateReservation.getId();
+    }
+
     public List<Reservation> findAll(){
         return reservationRepository.findAll();
     }

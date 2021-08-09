@@ -6,6 +6,7 @@ import lifestudio.backend.domain.studio.domain.Color;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +21,8 @@ public class ReservationDto {
 
         private Long userId;
 
-        private LocalDateTime resrvationTime;
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        private LocalDateTime reservationTime;
 
         private Color color;
 
@@ -41,6 +43,10 @@ public class ReservationDto {
 
         private Long studioId;
 
+        private String studioName;
+
+        private String studioType;
+
         private Long userId;
 
         private LocalDateTime resrvationTime;
@@ -53,13 +59,15 @@ public class ReservationDto {
 
         private String requirement;
 
-        private Boolean approve;
+        private boolean approve;
 
         public Res(Reservation reservation){
             this.id = reservation.getId();
             this.studioId = reservation.getStudio().getId();
+            this.studioName = reservation.getStudio().getStudioName();
+            this.studioType = reservation.getStudio().getStudioType().toString();
             this.userId = reservation.getUser().getId();
-            this.resrvationTime = reservation.getResrvationTime();
+            this.resrvationTime = reservation.getReservationTime();
             this.color = reservation.getColor();
             this.background = reservation.getBackground();
             this.people = reservation.getPeople();

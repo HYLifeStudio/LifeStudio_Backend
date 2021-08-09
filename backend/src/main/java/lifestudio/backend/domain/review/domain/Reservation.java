@@ -29,7 +29,7 @@ public class Reservation {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private LocalDateTime resrvationTime;
+    private LocalDateTime reservationTime;
 
     private Color color;
 
@@ -40,5 +40,9 @@ public class Reservation {
     private String requirement;
 
     private Boolean approve;
+
+    public void changeApprove(){
+       this.approve = !this.approve;
+    }
 
 }
