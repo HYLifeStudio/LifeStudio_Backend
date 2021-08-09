@@ -58,8 +58,10 @@ public class LikesApiController {
 		List<Likes> findLikes;
 		if (userId == null && photoId == null) {
 			findLikes = likesService.findAll();
+		} else if(userId != null && photoId == null) {
+			findLikes = likesService.findByUserId(userId);
 		} else {
-			findLikes = likesService.findByUserIdAndPhotoId(userId,photoId);
+			findLikes = likesService.findByUserIdAndPhotoId(userId, photoId);
 		}
 
 		List<LikesDto.Res> collect = findLikes.stream()

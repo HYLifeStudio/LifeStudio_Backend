@@ -51,4 +51,12 @@ public class LikesRepository {
 				.setParameter("photoId", photoId)
 				.getResultList();
 	}
+
+	public List<Likes> findByUserId(Long userId) {
+		return em.createQuery("select l from Likes l where l.user.id = :userId ", Likes.class)
+				.setParameter("userId", userId)
+				.getResultList();
+	}
+
+
 }

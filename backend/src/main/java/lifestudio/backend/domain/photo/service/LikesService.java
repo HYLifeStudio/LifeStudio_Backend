@@ -73,6 +73,15 @@ public class LikesService {
 		}
 	}
 
+	public List<Likes> findByUserId(Long userId){
+		List<Likes> likes = likeRepository.findByUserId(userId);
+		if (likes.isEmpty()){
+			throw new LikesNotFoundException(userId);
+		} else {
+			return likes;
+		}
+	}
+
 	@Transactional
 	public Long deleteById(Long likeId){
 		likeRepository.deleteById(likeId);

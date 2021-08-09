@@ -34,14 +34,14 @@ public class LikesDto {
 
 		private Long userId;
 
-		private Long photoId;
+		private PhotoDto.Res photo;
 
 		private Boolean isLiked;
 
 		public Res(Likes likes){
 			this.id = likes.getId();
 			this.userId = likes.getUser().getId();
-			this.photoId = likes.getPhoto().getId();
+			this.photo = new PhotoDto.Res(likes.getPhoto());
 			this.isLiked = likes.getIsLiked();
 		}
 	}
