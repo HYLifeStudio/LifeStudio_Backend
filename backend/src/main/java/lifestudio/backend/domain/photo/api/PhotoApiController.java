@@ -41,13 +41,11 @@ public class PhotoApiController {
 
 	}
 
+	@CrossOrigin("*")
 	@PostMapping("api/upload")
 	public Response upload(@RequestParam("images") MultipartFile multipartFile) throws IOException {
 		return responseService.getSingleResponse(new PhotoDto.uploadRes(fileService.upload(multipartFile, "static")));
 	}
-
-
-
 
 	@GetMapping("/api/photos/{id}")
 	public Response getPhoto(@PathVariable final long id) {
