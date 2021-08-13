@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class LikesApiController {
 
 	private final LikesService likesService;

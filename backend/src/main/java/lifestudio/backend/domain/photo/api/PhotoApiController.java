@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class PhotoApiController {
 
 	private final PhotoService photoService;
@@ -41,7 +40,6 @@ public class PhotoApiController {
 
 	}
 
-	@CrossOrigin("*")
 	@PostMapping("api/upload")
 	public Response upload(@RequestParam("images") MultipartFile multipartFile) throws IOException {
 		return responseService.getSingleResponse(new PhotoDto.uploadRes(fileService.upload(multipartFile, "static")));

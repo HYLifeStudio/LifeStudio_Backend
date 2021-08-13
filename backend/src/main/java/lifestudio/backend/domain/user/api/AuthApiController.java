@@ -24,7 +24,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthApiController {
 
 	private final UserService userService;

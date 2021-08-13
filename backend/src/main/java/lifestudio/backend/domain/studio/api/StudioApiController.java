@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class StudioApiController {
 
 	private final StudioService studioService;
