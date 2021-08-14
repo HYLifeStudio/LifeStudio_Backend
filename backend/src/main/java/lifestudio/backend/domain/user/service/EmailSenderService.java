@@ -67,7 +67,6 @@ public class EmailSenderService {
     public boolean emailCertification(HttpSession session, String email, int inputCode){
         try {
             int generateCode = (int) session.getAttribute(email);
-
             if (generateCode == inputCode){
                 return true;
             } else {
