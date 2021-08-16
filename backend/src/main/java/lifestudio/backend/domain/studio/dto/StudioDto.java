@@ -149,6 +149,8 @@ public class StudioDto {
 
 		private OptionDto.Res options;
 
+		private TagDto.Res tag;
+
 		private PhotoDto.Res representativePhoto;
 
 		private Integer ratingAverage;
@@ -160,6 +162,7 @@ public class StudioDto {
 			this.id = studio.getId();
 			this.studioName = studio.getStudioName();
 			this.address = new AddressDto.Res(studio.getAddress());
+			this.tag = new TagDto.Res(studio.getTag());
 			this.options = new OptionDto.Res(studio.getOption());
 			this.representativePhoto = representativePhoto == null ? null :
 					new PhotoDto.Res(representativePhoto);
