@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://lifestudiodb.crcohu21zbni.us-east-2.rds.amazonaws.com:3306/lifestudio
+    username: admin
+    password: lifestudio!
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: zxcvb5434@likelion.org
+    password: Hanaz147258!
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+
+
+logging:
+  level:
+    com.amazonaws.util.EC2MetadataUtils: error
+    org.hibernate.SQL: debug
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAYJR6NKOP7ZWGRHPY
+      secret-key: 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
+    region:
+      static: us-east-2
+    stack:
+      auto: false
+    s3:
+      bucket: lifestudio
