@@ -20,7 +20,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
     bucket: lifestudios3-deploy # 생성한 S3 버킷
-    region: ap-northeast-2
+    region: us-east-2
     skip_cleanup: true
     acl: public_read
     wait-until-deployed: true
