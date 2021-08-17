@@ -1,22 +1,18 @@
 language: java
 jdk:
-  - openjdk11
-
-# Git Push할 Branch
+- openjdk11
 branches:
   only:
-    - main
-
-# Travis CI 서버의 Home
+  - main
 cache:
   directories:
-    - '$HOME/.m2/repository'
-    - '$HOME/.gradle'
-
+  - "$HOME/.m2/repository"
+  - "$HOME/.gradle"
 script: "./gradlew clean build"
-
-# CI 실행 완료시 메일로 알람
 notifications:
   email:
     recipients:
-      - zxcvb5434@likelion.org
+    - zxcvb5434@likelion.org
+before_install:
+- openssl aes-256-cbc -K $encrypted_1116e8e6e492_key -iv $encrypted_1116e8e6e492_iv
+  -in application.yml.enc -out application.yml -d
