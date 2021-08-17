@@ -24,6 +24,7 @@ deploy:
     skip_cleanup: true
     acl: public_read
     wait-until-deployed: true
+    local_dir: deploy
     on:
       repo:  HYLifeStudio/LifeStudio_Backend #Github 주소
       branch: main
