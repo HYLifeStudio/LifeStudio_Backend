@@ -9,10 +9,31 @@ cache:
   - "$HOME/.m2/repository"
   - "$HOME/.gradle"
 script: "./gradlew clean build"
+
+before_deploy:
+  - zip -r lifestudio *
+  - mkdir -p deploy
+  - mv lifestudio.zip deploy/lifestudio.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: lifestudios3-deploy # 생성한 S3 버킷
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    on:
+      repo:  HYLifeStudio/LifeStudio_Backend #Github 주소
+      branch: main
+
 notifications:
   email:
     recipients:
     - zxcvb5434@likelion.org
+
+
 before_install:
 - openssl aes-256-cbc -K $encrypted_5c967de37745_key -iv $encrypted_5c967de37745_iv
   -in application.tar.enc -out application.tar -d
