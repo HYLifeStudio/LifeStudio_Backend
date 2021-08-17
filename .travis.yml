@@ -29,6 +29,19 @@ deploy:
       repo:  HYLifeStudio/LifeStudio_Backend #Github 주소
       branch: main
 
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
+    bucket: lifestudios3-deploy # S3 버킷
+    key: lifestudio.zip # S3 버킷에 저장된 lifestudio.zip 파일을 EC2로 배포
+    bundle_type: zip
+    application: lifestudio-webservice # 웹 콘솔에서 등록한 CodeDeploy 어플리케이션
+    deployment_group: lifestudio-webservice-group # 웹 콘솔에서 등록한 CodeDeploy 배포 그룹
+    region: us-east-2
+    wait-until-deployed: true
+    on:
+      repo: HYLifeStudio/LifeStudio_Backend
+      branch: main
 notifications:
   email:
     recipients:
